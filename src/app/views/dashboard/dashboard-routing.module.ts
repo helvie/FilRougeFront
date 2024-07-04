@@ -10,6 +10,7 @@ import { FormationsComponent } from '../formations/formations.component';
 import { FormateursComponent } from '../formateurs/formateurs.component';
 import { EditFormationComponent } from '../formations/edit-formation/edit-formation.component';
 import { InsertFormateurComponent } from '../formateurs/insert-formateur/insert-formateur.component';
+import { SessionsComponent } from '../sessions/sessions.component';
 
 const routes: Routes = [
   {
@@ -28,7 +29,8 @@ const routes: Routes = [
       {path: 'clients/:id', component: InsertClientComponent},
       {path: 'clients/employe/:id', component: InsertClientComponent},
       {path: 'clients/particulier/:id', component: InsertClientComponent},
-      {path: 'clients/company/:id', component: InsertClientComponent}
+      {path: 'clients/company/:id', component: InsertClientComponent},
+      {path: 'sessions', component:SessionsComponent}
     ]
   },
 ];

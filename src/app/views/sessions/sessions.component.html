@@ -1,0 +1,73 @@
+<h1 class="h2 mb-3 mt-3 border-bottom p-2">Sessions</h1>
+<div class="card">
+
+
+<div class="card-header d-flex justify-content-between">
+  <h4 class="lead">
+    {{
+      allSessions.length > 0
+        ? "Liste des sessions"
+        : "Aucune session n'a pas été planifiée pour l'instant"
+    }}
+  </h4>
+  <button
+    type="button"
+    class="btn btn-sm btn-primary"
+    title="Nouvelle session"
+  >Nouvelle session
+  </button>
+</div>
+
+<div class="card-body">
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Code</th>
+        <th scope="col">Duration</th>
+        <th scope="col">Prix</th>
+        <th scope="col">Description</th>
+        <th scope="col">Status</th>
+        <th scope="col">Date</th>
+        <th scope="col">Location</th>
+        <th scope="col">SessionScore</th>
+        <th scope="col">CreationDate</th>
+        <th scope="col">UpdateDate</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        *ngFor="let session of allSessions"
+      >
+        <td>
+         {{session.id}}
+        </td>
+        <td>{{ session.code }}</td>
+        <td>{{ session.duration }}&nbsp; mois</td>
+        <td>{{ session.price }}&nbsp;€</td>
+        <td>{{ session.description }}</td>
+        <td>{{ session.status }}</td>
+        <td>{{ session.date }}</td>
+        <td>{{ session.location }}</td>
+        <td>{{ session.sessionScore }}</td>
+        <td>{{ session.creationDate | date : "dd-MM-yyyy" }}</td>
+        <td>{{ session.updateDate | date : "dd-MM-yyyy" }}</td>
+        <td>
+        <span
+          class="text-danger"
+          title="Supprimer"
+          (click)="deleteSessoin(session.id)"
+        >
+            <i class="fa fa-trash"></i>
+          </span>
+      </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+</div>

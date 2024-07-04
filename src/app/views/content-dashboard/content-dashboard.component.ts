@@ -9,6 +9,8 @@ import {EmployeeService} from "../../services/employee.service";
 import {ParticularService} from "../../services/particular.service";
 import {Employee} from "../../models/Employee";
 import {Particular} from "../../models/Particular";
+import { Session } from 'src/app/models/Session';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-content-dashboard',
@@ -23,6 +25,7 @@ export class ContentDashboardComponent implements OnInit {
     private formateurSevice: TrainerService,
     private employeeService: EmployeeService,
     private particularService: ParticularService,
+    private sessionService: SessionService
   ) {
   }
 
@@ -32,6 +35,7 @@ export class ContentDashboardComponent implements OnInit {
 
   listeEmployees: Employee[] = [];
   listeParticulars: Particular[] = [];
+  listeSessions: Session[] = [];
 
   ngOnInit(): void {
     this.loadThemes();
@@ -39,6 +43,7 @@ export class ContentDashboardComponent implements OnInit {
     this.loadFormateur();
 
     this.loadParticipants();
+    this.loadSessions();
   }
 
   loadFormateur() {
@@ -68,4 +73,11 @@ export class ContentDashboardComponent implements OnInit {
       next: (data) => this.listeParticulars = data
     })
   }
+
+  loadSessions() {
+    this.sessionService.getAll().subscribe({
+      next: (data) => this.listeSessions = data
+    })
+  }
+
 }
