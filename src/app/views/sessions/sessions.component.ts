@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Session } from 'src/app/models/Session';
 import { AlertService } from 'src/app/services/alert.service';
 import { SessionService } from 'src/app/services/session.service';
@@ -15,7 +16,8 @@ export class SessionsComponent implements OnInit {
 
   constructor(
     private sessionService: SessionService,
-    private alert: AlertService
+    private alert: AlertService,
+    private router: Router,
   ){
 
   }
@@ -36,6 +38,10 @@ export class SessionsComponent implements OnInit {
           this.alert.alertError(err.error !== null ? err.error.message : 'Impossible de récupérer les formations');
         }
       )
+  }
+
+  goToUpdate(id: number) {
+    this.router.navigate(['dashboard/sessions/update/', id]);
   }
 
   deleteSessoin(id: number){

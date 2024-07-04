@@ -1,3 +1,5 @@
+import { Trainer } from "./Trainer";
+import { Training } from "./Training";
 
 export interface Session{
     id: number;
@@ -11,4 +13,6 @@ export interface Session{
     sessionScore: number;
     creationDate: Date;
     updateDate: Date
+    training : Training;
+    trainer : Trainer
 }

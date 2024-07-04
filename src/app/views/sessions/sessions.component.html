@@ -56,6 +56,13 @@
         <td>{{ session.updateDate | date : "dd-MM-yyyy" }}</td>
         <td>
         <span
+          (click)="goToUpdate(session.id)"
+          class="text-primary"
+          title="Modifier"
+        >
+          <i class="fa fa-pencil"></i> </span
+        >&nbsp;
+        <span
           class="text-danger"
           title="Supprimer"
           (click)="deleteSessoin(session.id)"
