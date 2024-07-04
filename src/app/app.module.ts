@@ -18,6 +18,7 @@ import { FormateursComponent } from './views/formateurs/formateurs.component';
 import { InsertFormateurComponent } from './views/formateurs/insert-formateur/insert-formateur.component';
 import { FormationsComponent } from './views/formations/formations.component';
 import { EditFormationComponent } from './views/formations/edit-formation/edit-formation.component';
+import { SessionsComponent } from './views/sessions/sessions.component';
 
 @NgModule({
   declarations: [
