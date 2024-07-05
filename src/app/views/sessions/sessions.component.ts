@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { tap } from 'rxjs';
 import { Session } from 'src/app/models/Session';
 import { AlertService } from 'src/app/services/alert.service';
 import { SessionService } from 'src/app/services/session.service';
 import Swal from 'sweetalert2';
+import { Status } from './sessions.utils';
 
 @Component({
   selector: 'app-sessions',
@@ -13,17 +16,23 @@ import Swal from 'sweetalert2';
 export class SessionsComponent implements OnInit {
   allSessions: Session[] = [];
   isLoading!: boolean;
+  isFormSessionLoading!: boolean;
+  sessionValue!: Session;
+  sessionForm!:FormGroup;
+  statusValues = Status;
 
   constructor(
     private sessionService: SessionService,
     private alert: AlertService,
     private router: Router,
+    private toastService: AlertService
   ){
 
   }
 
   ngOnInit(): void {
     this.getAllSessions();
+    this.initForm();
   }
 
   getAllSessions() {
@@ -39,6 +48,20 @@ export class SessionsComponent implements OnInit {
         }
       )
   }
+
+  initForm() {
+    this.sessionForm = new FormGroup({
+      code: new FormControl(''),
+      duration: new FormControl(''),
+      price: new FormControl(''),
+      description: new FormControl(''),
+      status: new FormControl(''),
+      date: new FormControl(''),
+      location: new FormControl(''),
+      sessionScore: new FormControl('')
+     });
+  }
+
 
   goToUpdate(id: number) {
     this.router.navigate(['dashboard/sessions/update/', id]);
@@ -70,5 +93,41 @@ export class SessionsComponent implements OnInit {
           });
       }
     })
+  }
+
+  saveSession() {
+    this.isFormSessionLoading = true;
+    let sessionSave = this.createSession();
+    this.sessionService.save(sessionSave).pipe(
+      tap(
+        (value) => {
+          let sessionResponse = value;
+          this.toastService.alertSuccess("Enregistrement effectué avec succès!");
+          this.isFormSessionLoading = false;
+          this.sessionForm.reset();
+          setTimeout(() => {
+            this.sessionForm.reset();
+            window.location.reload();
+          }, 1000);
+        },
+        (error) => {
+          console.log(error);
+          if (error.error == null) {
+            this.toastService.alertError("Une erreur est survenue lors de l'enregistrement d'une session");
+            this.isFormSessionLoading = false;
+          } else {
+            this.toastService.alertError(error.error.message);
+            this.isFormSessionLoading = false;
+          }
+        }
+      )
+    ).subscribe();
+
+
+  }
+
+  createSession(): Session {
+    this.sessionValue = this.sessionForm.value;
+    return this.sessionValue;
   }
 }

@@ -159,7 +159,7 @@ export class EditSessionComponent implements OnInit{
             );
             this.isFormSessionLoading = false;
             this.sessionFormUpdate.reset();
-            this.router.navigate(['dashboard/catalogues/formations']);
+            this.router.navigate(['dashboard/sessions']);
           },
           (error) => {
             console.log(error);

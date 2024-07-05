@@ -20,6 +20,7 @@ import { FormationsComponent } from './views/formations/formations.component';
 import { EditFormationComponent } from './views/formations/edit-formation/edit-formation.component';
 import { SessionsComponent } from './views/sessions/sessions.component';
 import { EditSessionComponent } from './views/sessions/edit-session/edit-session.component';
+import { AddSessionComponent } from './views/sessions/add-session/add-session.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { EditSessionComponent } from './views/sessions/edit-session/edit-session
     LoginComponent,
     FormateursComponent,
     InsertFormateurComponent,
-    EditSessionComponent
+    EditSessionComponent,
+    AddSessionComponent
   ],
   imports: [
     BrowserModule,
