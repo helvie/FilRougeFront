@@ -12,6 +12,7 @@ import { ThemesInfosComponent } from '../themes/themes-infos/themes-infos.compon
 import { NgxPaginationModule } from 'ngx-pagination';
 import { EditFormationComponent } from '../formations/edit-formation/edit-formation.component';
 import { FormationsComponent } from '../formations/formations.component';
+import { SessionsComponent } from '../sessions/sessions.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { FormationsComponent } from '../formations/formations.component';
     EditFormationComponent,
     ThemesComponent,
     ThemesInfosComponent,
-    FormationsComponent
+    FormationsComponent,
+    SessionsComponent
   ],
   imports: [
     CommonModule,

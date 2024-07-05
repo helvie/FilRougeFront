@@ -1,0 +1,221 @@
+<h1 class="h2 mb-3 mt-3 border-bottom p-2">Sessions</h1>
+<div class="card">
+
+
+<div class="card-header d-flex justify-content-between">
+  <h4 class="lead">
+    {{
+      allSessions.length > 0
+        ? "Liste des sessions"
+        : "Aucune session n'a pas été planifiée pour l'instant"
+    }}
+  </h4>
+  <button
+    type="button"
+    class="btn btn-sm btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#sessionModal">
+    Nouvelle session
+  </button>
+
+  <div
+  class="modal fade"
+  id="sessionModal"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  aria-labelledby="sessionModalLabel"
+  aria-hidden="true"
+  >
+ 
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nouvelle Session</h5>
+      </div>
+      <form [formGroup]="sessionForm">
+        <div
+          class="modal-body"
+          style="padding: 2rem; margin-top: -15px"
+        >
+          <span style="font-style: italic"
+          ><strong
+          >NB: les champs notés avec (*) sont obligatoires</strong
+          ></span>
+          <div class="row" style="margin-top: 30px">
+          <!-- code -->
+          <div class="col-sm-6">
+              <div class="form-group">
+                <label class="form-label" for="Enter_Code"
+                >Code <span style="color: red">*</span></label
+                >
+                <input
+                  id="Enter_Code"
+                  type="text"
+                  class="form-control"
+                  formControlName="code"
+                  required
+                />
+              </div>
+          </div>
+
+          <!-- duration -->
+          <div class="col-sm-6">
+              <div class="form-group">
+                  <div class="form-label" for="Enter_Duration">
+                      Duration <span class="text-danger">*</span>
+                      <input id = "Enter_Duration" type="number" class="form-control" formControlName="duration" required>
+                  </div>
+              </div>
+          </div>
+          <!-- price -->
+          <div class="col-sm-6">
+              <div class="form-group">
+                  <div class="form-label" for="Enter_Price">
+                      Prix  <span class="text-danger">*</span>
+                      <input id="Enter_Price" type="number" class="form-control" formControlName="price" required>
+                    </div>
+              </div>
+          </div>
+          <!-- status -->
+          <!-- <div class="col-sm-6">
+              <div class="form-group">
+                  <div class="form-label" for="Enter_Status">
+                      Status <span class="text-danger">*</span>
+                      <select id="Enter_Status" class="form-control" formControlName="status">
+                          <option value="" disabled selected>Sélectionner un status</option>
+                         
+                          <option *ngFor="let status of statusValues" [selected]="isSelected(status)" [value]="status">{{status}}</option>
+                      </select>
+                  </div>
+              </div>
+          </div> -->
+          <!-- date -->
+          <div class="col-sm-6">
+              <div class="form-group">
+                  <div class="form-label" for="Enter_Date">
+                      Date <span class="text-danger">*</span>
+                      <input id="Enter_Date" type="date" class="form-control" formControlName="date">
+                  </div>
+              </div>
+          </div>
+          <!-- location -->
+          <div class="col-sm-6">
+              <div class="form-group">
+                  <div class="form-label" for="Enter_Location">
+                      Location <span class="text-danger">*</span>
+                      <input id = "Enter_Location" type="text" class="form-control" formControlName="location" required>
+                  </div>
+              </div>
+          </div>
+          <!-- sessionScore -->
+          <div class="col-sm-6">
+              <div class="form-group">
+                  <div class="form-label" for="Enter_Score">
+                      Score  <span class="text-danger">*</span>
+                      <input id="Enter_Score" type="number" class="form-control" formControlName="sessionScore" required>
+                    </div>
+              </div>
+          </div>
+          <!-- description -->
+          <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="form-group">
+                  <div class="form-label" for="Enter_Description">
+                      Description  <span class="text-danger">*</span>
+                      <input id="Enter_Description" type="text" class="form-control" formControlName="description" required>
+                  </div>
+              </div>
+          </div>
+           
+          </div>
+        </div>
+        <div class="modal-footer" style="padding: 2rem">
+          <button
+            type="submit"
+            [disabled]="
+              sessionForm.invalid || isFormSessionLoading
+            "
+            class="btn btn-primary"
+            (click)="saveSession()"
+          >
+            <span
+              *ngIf="isFormSessionLoading"
+              class="spinner-border"
+            ></span
+            ><span [ngClass]="isFormSessionLoading ? 'hidden' : ''"
+          >&nbsp;Enregistrer</span
+          >
+          </button>
+          <button
+            type="reset"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            &nbsp;Annuler
+          </button>
+        </div> 
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="card-body">
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Code</th>
+        <th scope="col">Duration</th>
+        <th scope="col">Prix</th>
+        <th scope="col">Description</th>
+        <th scope="col">Status</th>
+        <th scope="col">Date</th>
+        <th scope="col">Location</th>
+        <th scope="col">SessionScore</th>
+        <th scope="col">CreationDate</th>
+        <th scope="col">UpdateDate</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        *ngFor="let session of allSessions"
+      >
+        <td>
+         {{session.id}}
+        </td>
+        <td>{{ session.code }}</td>
+        <td>{{ session.duration }}&nbsp; mois</td>
+        <td>{{ session.price }}&nbsp;€</td>
+        <td>{{ session.description }}</td>
+        <td>{{ session.status }}</td>
+        <td>{{ session.date }}</td>
+        <td>{{ session.location }}</td>
+        <td>{{ session.sessionScore }}</td>
+        <td>{{ session.creationDate | date : "dd-MM-yyyy" }}</td>
+        <td>{{ session.updateDate | date : "dd-MM-yyyy" }}</td>
+        <td>
+        <span
+          (click)="goToUpdate(session.id)"
+          class="text-primary"
+          title="Modifier"
+        >
+          <i class="fa fa-pencil"></i> </span
+        >&nbsp;
+        <span
+          class="text-danger"
+          title="Supprimer"
+          (click)="deleteSessoin(session.id)"
+        >
+            <i class="fa fa-trash"></i>
+          </span>
+      </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+</div>
