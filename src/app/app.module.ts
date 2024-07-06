@@ -16,11 +16,6 @@ import {LoginComponent} from './public/login/login.component';
 import {AuthInterceptor} from "./interceptor/auth.interceptor";
 import { FormateursComponent } from './views/formateurs/formateurs.component';
 import { InsertFormateurComponent } from './views/formateurs/insert-formateur/insert-formateur.component';
-import { FormationsComponent } from './views/formations/formations.component';
-import { EditFormationComponent } from './views/formations/edit-formation/edit-formation.component';
-import { SessionsComponent } from './views/sessions/sessions.component';
-import { EditSessionComponent } from './views/sessions/edit-session/edit-session.component';
-import { AddSessionComponent } from './views/sessions/add-session/add-session.component';
 
 @NgModule({
   declarations: [
@@ -30,8 +25,6 @@ import { AddSessionComponent } from './views/sessions/add-session/add-session.co
     LoginComponent,
     FormateursComponent,
     InsertFormateurComponent,
-    EditSessionComponent,
-    AddSessionComponent
   ],
   imports: [
     BrowserModule,

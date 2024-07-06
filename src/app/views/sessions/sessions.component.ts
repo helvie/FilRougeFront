@@ -15,12 +15,19 @@ import { Status } from './sessions.utils';
 })
 export class SessionsComponent implements OnInit {
   allSessions: Session[] = [];
-  isLoading!: boolean;
-  isFormSessionLoading!: boolean;
+  
   sessionValue!: Session;
   sessionForm!:FormGroup;
-  statusValues = Status;
 
+  isShowSessions : boolean = false
+  isShowInterSessions : boolean = false
+  isShowIntraSessions : boolean = false
+
+  isLoading!: boolean;
+  isFormSessionLoading!: boolean;
+  
+  statusValues = Status;
+  
   constructor(
     private sessionService: SessionService,
     private alert: AlertService,
@@ -62,6 +69,23 @@ export class SessionsComponent implements OnInit {
      });
   }
 
+  showSessions() {
+    this.isShowSessions = true;
+    this.isShowInterSessions = false;
+    this.isShowIntraSessions = false;
+   }
+
+  showInterSessions(){
+    this.isShowSessions = false;
+    this.isShowInterSessions = true;
+    this.isShowIntraSessions = false;
+  }
+
+  showIntraSessions(){
+    this.isShowSessions = false;
+    this.isShowInterSessions = false;
+    this.isShowIntraSessions = true;
+  }
 
   goToUpdate(id: number) {
     this.router.navigate(['dashboard/sessions/update/', id]);

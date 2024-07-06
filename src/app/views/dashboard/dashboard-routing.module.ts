@@ -12,6 +12,7 @@ import { EditFormationComponent } from '../formations/edit-formation/edit-format
 import { InsertFormateurComponent } from '../formateurs/insert-formateur/insert-formateur.component';
 import { SessionsComponent } from '../sessions/sessions.component';
 import { EditSessionComponent } from '../sessions/edit-session/edit-session.component';
+import { InterSessionsComponent } from '../sessions/inter-sessions/inter-sessions.component';
 
 const routes: Routes = [
   {
@@ -32,7 +33,9 @@ const routes: Routes = [
       {path: 'clients/particulier/:id', component: InsertClientComponent},
       {path: 'clients/company/:id', component: InsertClientComponent},
       {path: 'sessions', component:SessionsComponent},
-      {path: 'sessions/update/:id', component:EditSessionComponent}
+      {path: 'sessions/update/:id', component:EditSessionComponent},
+      {path: 'intersessions', component:InterSessionsComponent},
+      {path: 'intersessions/update/:id', component:EditSessionComponent}
     ]
   },
 ];

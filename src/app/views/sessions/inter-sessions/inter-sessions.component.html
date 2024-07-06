@@ -1,0 +1,47 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Code</th>
+      <th scope="col">Duration</th>
+      <th scope="col">Prix</th>
+      <th scope="col">Description</th>
+      <th scope="col">Status</th>
+      <th scope="col">Date</th>
+      <th scope="col">Location</th>
+      <th scope="col">SessionScore</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let intersession of allInterSessions">
+      <td>
+        {{ intersession.id }}
+      </td>
+      <td>{{ intersession.code }}</td>
+      <td>{{ intersession.duration }}&nbsp; mois</td>
+      <td>{{ intersession.price }}&nbsp;€</td>
+      <td>{{ intersession.description }}</td>
+      <td>{{ intersession.status }}</td>
+      <td>{{ intersession.date }}</td>
+      <td>{{ intersession.location }}</td>
+      <td>{{ intersession.sessionScore }}</td>
+      <td>
+        <span
+          (click)="goToUpdate(intersession.id)"
+          class="text-primary"
+          title="Modifier"
+        >
+          <i class="fa fa-pencil"></i> </span
+        >&nbsp;
+        <span
+          class="text-danger"
+          title="Supprimer"
+          (click)="deleteInterSessoin(intersession.id)"
+        >
+          <i class="fa fa-trash"></i>
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>
