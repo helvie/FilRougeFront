@@ -111,7 +111,7 @@ export class EditIntraSesssionComponent {
             );
             this.isFormSessionLoading = false;
             this.intraSessionFormUpdate.reset();
-            this.router.navigate(['dashboard/intrasessions']);
+            this.router.navigate(['dashboard/sessions']);
           },
           (error) => {
             console.log(error);
@@ -131,7 +131,7 @@ export class EditIntraSesssionComponent {
   }
 
   cancel() {
-    this.router.navigate(['/dashboard/intrasessions']);
+    this.router.navigate(['/dashboard/sessions']);
   }
 
 }

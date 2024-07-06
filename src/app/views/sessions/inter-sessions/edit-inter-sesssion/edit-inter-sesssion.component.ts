@@ -110,7 +110,7 @@ export class EditInterSesssionComponent {
             );
             this.isFormSessionLoading = false;
             this.interSessionFormUpdate.reset();
-            this.router.navigate(['dashboard/intersessions']);
+            this.router.navigate(['dashboard/sessions']);
           },
           (error) => {
             console.log(error);
@@ -130,6 +130,6 @@ export class EditInterSesssionComponent {
   }
 
   cancel() {
-    this.router.navigate(['/dashboard/intersessions']);
+    this.router.navigate(['/dashboard/sessions']);
   }
 }

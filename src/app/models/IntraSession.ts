@@ -28,7 +28,7 @@ export const EmptyIntraSession  : IntraSession = {
     creationDate: new Date(),
     updateDate: new Date(),
     company: {
-        id: 33,
+        id: 0,
         name: "",
         phone: "",
         email: "",
