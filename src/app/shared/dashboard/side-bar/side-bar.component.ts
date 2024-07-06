@@ -14,5 +14,4 @@ export class SideBarComponent {
   clientsLink: string = "/dashboard/clients";
   sessionsLink: string = "/dashboard/sessions"
   catalogueLink: string = "/dashboard/catalogues";
-
 }

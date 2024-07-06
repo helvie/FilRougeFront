@@ -21,7 +21,8 @@
           aria-expanded="true"
           style="color: #fff"
         >
-          <i class="fa-solid fa-angle-down mx-3"></i>Catalogues
+        <i class="fa-solid fa-swatchbook"></i> &nbsp; Catalogues
+          <!-- <i class="fa-solid fa-angle-down mx-3"></i> -->
         </a>
         <div class="collapse" id="catalogue-collapse">
           <ul
@@ -43,7 +44,16 @@
                 [routerLinkActive]="'active-link'"
                 class="text-white d-block"
                 style="text-decoration: none"
-              >Formations</a
+                ><i class="fa-solid fa-angle-right mx-3"></i>Formations</a
+              >
+            </li>
+            <li>
+              <a
+                [routerLink]="sessionsLink"
+                [routerLinkActive]="'active-link'"
+                class="text-white d-block"
+                style="text-decoration: none"
+                ><i class="fa-solid fa-angle-right mx-3"></i>Sessions</a
               >
             </li>
           </ul>
@@ -54,19 +64,19 @@
         <a
           [routerLink]="formateursLink"
           class="nav-link text-white"
-          [routerLinkActive]="'active'"
+          [routerLinkActive]="'active-link'"
         >
           <i class="fa fa-users"></i> &nbsp; Formateurs
         </a>
       </li>
-      <hr/>
+      <hr />
       <li>
         <a
           [routerLink]="clientsLink"
           class="nav-link text-white"
           [routerLinkActive]="'active-link'"
         >
-          <i class="fa-solid fa-angle-right mx-3"></i> Participants
+          <i class="fa-solid fa-graduation-cap"></i> &nbsp; Participants
         </a>
       </li>
       <hr />
