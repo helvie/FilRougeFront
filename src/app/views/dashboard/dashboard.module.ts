@@ -13,7 +13,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { EditFormationComponent } from '../formations/edit-formation/edit-formation.component';
 import { FormationsComponent } from '../formations/formations.component';
 import { SessionsComponent } from '../sessions/sessions.component';
-import { EditSessionComponent } from '../sessions/edit-session/edit-session.component';
 import { InterSessionsComponent } from '../sessions/inter-sessions/inter-sessions.component';
 import { IntraSessionsComponent } from '../sessions/intra-sessions/intra-sessions.component';
 import { EditInterSesssionComponent } from '../sessions/inter-sessions/edit-inter-sesssion/edit-inter-sesssion.component';
@@ -34,7 +33,6 @@ import { AddSessionComponent } from '../sessions/add-session/add-session.compone
     ThemesInfosComponent,
     FormationsComponent,
     SessionsComponent,
-    EditSessionComponent,
     InterSessionsComponent,
     IntraSessionsComponent,
     EditInterSesssionComponent,

@@ -1,21 +1,32 @@
 import { Component } from '@angular/core';
 import { InterSession, EmptyInterSession } from 'src/app/models/InterSession';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InterSessionService } from 'src/app/services/inter-session.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { tap } from 'rxjs';
 import { Status } from '../../sessions.utils';
+import { Training } from 'src/app/models/Training';
+import { Trainer } from 'src/app/models/Trainer';
+import { TrainingService } from 'src/app/services/training.service';
+import { TrainerService } from 'src/app/services/trainer.service';
 @Component({
   selector: 'app-edit-inter-sesssion',
   templateUrl: './edit-inter-sesssion.component.html',
-  styleUrls: ['./edit-inter-sesssion.component.scss']
+  styleUrls: ['./edit-inter-sesssion.component.scss'],
 })
 export class EditInterSesssionComponent {
-  id!:number;
-  interSessionDetail : InterSession = EmptyInterSession;
+  id!: number;
+  interSessionDetail: InterSession = EmptyInterSession;
 
   statusValues: String[] = Object.values(Status);
+  allTrainings: Training[] = [];
+  allTrainers: Trainer[] = [];
   isFormSessionLoading!: boolean;
   interSessionFormUpdate: FormGroup;
 
@@ -23,10 +34,12 @@ export class EditInterSesssionComponent {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private interSessionService: InterSessionService,
+    private trainingService: TrainingService,
+    private trainerService: TrainerService,
     private alert: AlertService,
     private toastService: AlertService,
     private router: Router
-  ){
+  ) {
     this.interSessionFormUpdate = this.formBuilder.group({
       id: ['', Validators.required],
       code: ['', Validators.required],
@@ -37,14 +50,17 @@ export class EditInterSesssionComponent {
       date: ['', Validators.required],
       location: ['', Validators.required],
       sessionScore: ['', Validators.required],
+      training: ['', Validators.required],
+      trainer: ['', Validators.required],
     });
   }
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     this.handlerGetInterSessionById();
+    this.getAllTrainings();
+    this.getAllTrainers();
     this.initForm();
   }
-
 
   initForm() {
     this.interSessionFormUpdate = new FormGroup({
@@ -57,7 +73,42 @@ export class EditInterSesssionComponent {
       date: new FormControl([]),
       location: new FormControl([]),
       sessionScore: new FormControl([]),
+      training: new FormControl([]),
+      trainer: new FormControl([])
     });
+  }
+
+  getAllTrainings() {
+    this.isFormSessionLoading = true;
+    this.trainingService.getAll().subscribe(
+      (next) => {
+        this.allTrainings = next;
+        this.isFormSessionLoading = false;
+      },
+      (err) => {
+        this.alert.alertError(
+          err.error !== null
+            ? err.error.message
+            : 'Impossible de récupérer les formations'
+        );
+      }
+    );
+  }
+  getAllTrainers() {
+    this.isFormSessionLoading = true;
+    this.trainerService.getAll().subscribe(
+      (next) => {
+        this.allTrainers = next;
+        this.isFormSessionLoading = false;
+      },
+      (err) => {
+        this.alert.alertError(
+          err.error !== null
+            ? err.error.message
+            : 'Impossible de récupérer les formateurs'
+        );
+      }
+    );
   }
 
   handlerGetInterSessionById() {
@@ -75,6 +126,8 @@ export class EditInterSesssionComponent {
           date: data.date,
           location: data.location,
           sessionScore: data.sessionScore,
+          trainer: data.trainer,
+          training: data.training
         });
       },
       (err) => {
