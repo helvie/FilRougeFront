@@ -55,7 +55,7 @@ export class AddSessionComponent implements OnInit {
       location: new FormControl(''),
       sessionScore: new FormControl(''),
       minParticipants: new FormControl(''),
-      Company: new FormControl('')
+      company: new FormControl('')
     });
   }
 
