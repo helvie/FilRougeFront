@@ -76,6 +76,6 @@ export class InterSessionsComponent implements OnInit {
   }
 
   goToUpdate(id: number) {
-    this.router.navigate(['dashboard/sessions/update/', id]);
+    this.router.navigate(['dashboard/intersessions/update/', id]);
   }
 }

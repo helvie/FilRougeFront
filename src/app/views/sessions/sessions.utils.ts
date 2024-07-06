@@ -1,4 +1,15 @@
 
-export const Status = [
-	'OPEN', 'CLOSED', 'WAITING', 'ACTIVE', 'IN_PROGRESS', 'COMPLETE','CANCELLED'
-]
+// export const Status = [
+// 	'OPEN', 'CLOSED', 'WAITING', 'ACTIVE', 'IN_PROGRESS', 'COMPLETE','CANCELLED'
+// ]
+
+export enum Status {
+	OPEN = 'OPEN',
+	CLOSED = 'CLOSED',
+	WAITING = 'WAITING',
+	ACTIVE = 'ACTIVE',
+	IN_PROGRESS = 'IN_PROGRESS',
+	COMPLETE = 'COMPLETE',
+	CANCELLED = 'CANCELLED'
+  }
+  

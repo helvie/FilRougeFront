@@ -1,0 +1,131 @@
+<div
+  class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+>
+    <h1 class="h2">InterSessions</h1>
+</div>
+
+<div class="col-lg-12">
+    <div class="row tab-content">
+        <div class="col-xl-12 col-xxl-12 col-sm-12">
+            <div class="card">
+                <div class="card-header" style="background-color: #fff">
+                    <h4 class="card-title">Modification InterSession</h4>
+                </div>  
+                <div class="card-body">
+                    <span style="font-style: italic">
+                        <strong>NB: les champs notés avec (*) sont obligatoires</strong>
+                    </span>
+                    <form [formGroup]="interSessionFormUpdate">
+                        <div class="row">
+                            <!-- code & id -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-label" for="Enter_Code">
+                                        Code <span class="text-danger">*</span>
+                                        <input id = "Enter_Code" type="text" class="form-control" value="{{interSessionDetail.code}}" formControlName="code" required>
+                                        <input type="hidden" class="form-control" value="{{interSessionDetail.id}}" formControlName="id" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- duration -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-label" for="Enter_Duration">
+                                        Duration <span class="text-danger">*</span>
+                                        <input id = "Enter_Duration" type="number" class="form-control" value="{{interSessionDetail.duration}}" formControlName="duration" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- price -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-label" for="Enter_Price">
+                                        Prix  <span class="text-danger">*</span>
+                                        <input id="Enter_Price" type="number" class="form-control" value="{{interSessionDetail.price}}" formControlName="price" required>
+                                      </div>
+                                </div>
+                            </div>
+                            <!-- status -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-label" for="Enter_Status">
+                                        Status <span class="text-danger">*</span>
+                                        <select id="Enter_Status" class="form-control" formControlName="status">
+                                            <option value="" disabled selected>Sélectionner un status</option>
+                                           
+                                            <option *ngFor="let status of statusValues" [selected]="isSelected(status)" [value]="status">{{status}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- date -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-label" for="Enter_Date">
+                                        Date <span class="text-danger">*</span>
+                                        <input id="Enter_Date" type="date" class="form-control" value="{{interSessionDetail.date}}" formControlName="date">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- location -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-label" for="Enter_Location">
+                                        Location <span class="text-danger">*</span>
+                                        <input id = "Enter_Location" type="text" class="form-control" value="{{interSessionDetail.location}}" formControlName="location" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- sessionScore -->
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-label" for="Enter_Score">
+                                        Score  <span class="text-danger">*</span>
+                                        <input id="Enter_Score" type="number" class="form-control" value="{{interSessionDetail.sessionScore}}" formControlName="sessionScore" required>
+                                      </div>
+                                </div>
+                            </div>
+                            <!-- description -->
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <div class="form-label" for="Enter_Description">
+                                        Description  <span class="text-danger">*</span>
+                                        <input id="Enter_Description" type="text" class="form-control" value="{{interSessionDetail.description}}" formControlName="description" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div style="float: right">
+                                  <button
+                                    type="submit"
+                                    [disabled]="
+                                      interSessionFormUpdate.invalid || isFormSessionLoading
+                                    "
+                                    class="btn btn-primary"
+                                    (click)="updateInterSession()"
+                                  >
+                                    <span
+                                      *ngIf="isFormSessionLoading"
+                                      class="spinner-border"
+                                    ></span
+                                    ><span [ngClass]="isFormSessionLoading ? 'hidden' : ''"
+                                      >&nbsp;Enregistrer</span
+                                    ></button
+                                  >&nbsp;
+                                  <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    (click)="cancel()"
+                                  >
+                                    &nbsp;Annuler
+                                  </button>
+                                </div>
+                              </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -26,7 +26,7 @@ export class SessionsComponent implements OnInit {
   isLoading!: boolean;
   isFormSessionLoading!: boolean;
   
-  statusValues = Status;
+  statusValues : String[] = Object.values(Status)
   
   constructor(
     private sessionService: SessionService,

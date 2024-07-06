@@ -76,6 +76,6 @@ export class IntraSessionsComponent {
   }
 
   goToUpdate(id: number) {
-    this.router.navigate(['dashboard/sessions/update/', id]);
+    this.router.navigate(['dashboard/intrasessions/update/', id]);
   }
 }
