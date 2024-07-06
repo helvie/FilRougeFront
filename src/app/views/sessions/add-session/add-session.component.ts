@@ -12,6 +12,10 @@ import { InterSession } from 'src/app/models/InterSession';
 import { IntraSession } from 'src/app/models/IntraSession';
 import { CompanyService } from 'src/app/services/company.service';
 import { Company } from 'src/app/models/Company';
+import { TrainingService } from 'src/app/services/training.service';
+import { TrainerService } from 'src/app/services/trainer.service';
+import { Training } from 'src/app/models/Training';
+import { Trainer } from 'src/app/models/Trainer';
 
 @Component({
   selector: 'app-add-session',
@@ -27,6 +31,8 @@ export class AddSessionComponent implements OnInit {
   statusValues: String[] = Object.values(Status);
   sessionTypes: String[] = ['IntraSession', 'InterSession'];
   allCompanies: Company[] = []
+  allTrainings: Training[] = []
+  allTrainers: Trainer[]=[]
   
   constructor(
     private interSessionService: InterSessionService,
@@ -34,13 +40,17 @@ export class AddSessionComponent implements OnInit {
     private alert: AlertService,
     private router: Router,
     private toastService: AlertService,
-    private companyService : CompanyService
+    private companyService : CompanyService,
+    private trainingService : TrainingService,
+    private trainerService : TrainerService
   ) {
     this.initForm();
   }
 
   ngOnInit(): void {
     this.getAllCompanies()
+    this.getAllTrainings()
+    this.getAllTrainers()
   }
 
   initForm() {
@@ -55,7 +65,9 @@ export class AddSessionComponent implements OnInit {
       location: new FormControl(''),
       sessionScore: new FormControl(''),
       minParticipants: new FormControl(''),
-      company: new FormControl('')
+      company: new FormControl(''),
+      training: new FormControl({}),
+      trainer: new FormControl({})
     });
   }
 
@@ -75,7 +87,38 @@ export class AddSessionComponent implements OnInit {
       }
     );
   }
-
+  getAllTrainings() {
+    this.isFormSessionLoading = true;
+    this.trainingService.getAll().subscribe(
+      (next) => {
+        this.allTrainings = next;
+        this.isFormSessionLoading = false;
+      },
+      (err) => {
+        this.alert.alertError(
+          err.error !== null
+            ? err.error.message
+            : 'Impossible de récupérer les formations'
+        );
+      }
+    );
+  }
+  getAllTrainers() {
+    this.isFormSessionLoading = true;
+    this.trainerService.getAll().subscribe(
+      (next) => {
+        this.allTrainers = next;
+        this.isFormSessionLoading = false;
+      },
+      (err) => {
+        this.alert.alertError(
+          err.error !== null
+            ? err.error.message
+            : 'Impossible de récupérer les formateurs'
+        );
+      }
+    );
+  }
   get sessionType() {
     return this.sessionForm.get('sessionType')?.value;
   }
