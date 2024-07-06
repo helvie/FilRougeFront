@@ -20,7 +20,7 @@ export class SessionsComponent implements OnInit {
   sessionForm!:FormGroup;
 
   isShowSessions : boolean = false
-  isShowInterSessions : boolean = false
+  isShowInterSessions : boolean = true
   isShowIntraSessions : boolean = false
 
   isLoading!: boolean;

@@ -10,9 +10,9 @@
     </h4>
     <!-- Sessions Links -->
     <p class="my-3 d-flex justify-content-around w-50">
-      <a (click)="showSessions()" class="text-decoration-none">
+      <!-- <a (click)="showSessions()" class="text-decoration-none">
         <span role="button" [ngClass]="{ active: isShowSessions }">Sessions</span>
-      </a>
+      </a> -->
       <a (click)="showInterSessions()" class="text-decoration-none">
         <span role="button" [ngClass]="{ active: isShowInterSessions }">InterSessions</span>
       </a>
@@ -213,7 +213,7 @@
 
   <!-- Tableau sessions -->
   <div class="card-body">
-    <div *ngIf="isShowSessions" class="table-responsive">
+    <!-- <div *ngIf="isShowSessions" class="table-responsive">
       <table class="table">
         <thead>
           <tr>
@@ -265,7 +265,7 @@
           </tr>
         </tbody>
       </table>
-    </div>
+    </div> -->
 
     <div *ngIf="isShowInterSessions" class="table-responsive">
       <app-inter-sessions></app-inter-sessions>
