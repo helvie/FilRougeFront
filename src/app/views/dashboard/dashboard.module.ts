@@ -18,6 +18,7 @@ import { InterSessionsComponent } from '../sessions/inter-sessions/inter-session
 import { IntraSessionsComponent } from '../sessions/intra-sessions/intra-sessions.component';
 import { EditInterSesssionComponent } from '../sessions/inter-sessions/edit-inter-sesssion/edit-inter-sesssion.component';
 import { EditIntraSesssionComponent } from '../sessions/intra-sessions/edit-intra-sesssion/edit-intra-sesssion.component';
+import { AddSessionComponent } from '../sessions/add-session/add-session.component';
 
 
 
@@ -37,7 +38,8 @@ import { EditIntraSesssionComponent } from '../sessions/intra-sessions/edit-intr
     InterSessionsComponent,
     IntraSessionsComponent,
     EditInterSesssionComponent,
-    EditIntraSesssionComponent
+    EditIntraSesssionComponent,
+    AddSessionComponent
   ],
   imports: [
     CommonModule,

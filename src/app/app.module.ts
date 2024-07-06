@@ -24,7 +24,7 @@ import { InsertFormateurComponent } from './views/formateurs/insert-formateur/in
     InsertClientComponent,
     LoginComponent,
     FormateursComponent,
-    InsertFormateurComponent,
+    InsertFormateurComponent
   ],
   imports: [
     BrowserModule,
