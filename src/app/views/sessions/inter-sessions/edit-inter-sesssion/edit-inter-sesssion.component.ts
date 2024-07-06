@@ -1,86 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { SessionService } from 'src/app/services/session.service';
-import { Session } from 'src/app/models/Session';
+import { Component } from '@angular/core';
+import { InterSession, EmptyInterSession } from 'src/app/models/InterSession';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { InterSessionService } from 'src/app/services/inter-session.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { tap } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Status } from '../sessions.utils';
-
+import { Status } from '../../sessions.utils';
 @Component({
-  selector: 'app-edit-session',
-  templateUrl: './edit-session.component.html',
-  styleUrls: ['./edit-session.component.scss'],
+  selector: 'app-edit-inter-sesssion',
+  templateUrl: './edit-inter-sesssion.component.html',
+  styleUrls: ['./edit-inter-sesssion.component.scss']
 })
-export class EditSessionComponent implements OnInit {
-  id!: number;
-  sessionDetail: Session = {
-    id: 0,
-    code: '',
-    duration: 0,
-    price: 0,
-    description: '',
-    status: '',
-    date: new Date(),
-    location: '',
-    sessionScore: 0,
-    creationDate: new Date(),
-    updateDate: new Date(),
-    trainer: {
-      id: 0,
-      firstname: '',
-      lastname: '',
-      gender: '',
-      activity: '',
-      address: '',
-      email: '',
-      cv_link: '',
-      id_akdemia_validation_test: 0,
-      login: '',
-      password: '',
-      phone: '',
-      photo: '',
-      creationDate: new Date(),
-      updateDate: new Date(),
-    },
-    training: {
-      creationDate: new Date(),
-      description: '',
-      id: 0,
-      logo: '',
-      requirement: {
-        id: 0,
-        name: '',
-        description: '',
-        link: '',
-        creationDate: new Date(),
-        updateDate: new Date(),
-      },
-      subThemes: [],
-      title: '',
-      trainingPrice: 0,
-      updateDate: new Date(),
-    },
-  };
+export class EditInterSesssionComponent {
+  id!:number;
+  interSessionDetail : InterSession = EmptyInterSession;
 
-  statusValues: String[]= Object.values(Status);
+  statusValues: String[] = Object.values(Status);
   isFormSessionLoading!: boolean;
-  sessionFormUpdate: FormGroup;
+  interSessionFormUpdate: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private sessionService: SessionService,
+    private interSessionService: InterSessionService,
     private alert: AlertService,
     private toastService: AlertService,
     private router: Router
-  ) {
-    this.sessionFormUpdate = this.formBuilder.group({
+  ){
+    this.interSessionFormUpdate = this.formBuilder.group({
       id: ['', Validators.required],
       code: ['', Validators.required],
       duration: ['', Validators.required],
@@ -92,15 +39,15 @@ export class EditSessionComponent implements OnInit {
       sessionScore: ['', Validators.required],
     });
   }
-
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
-    this.handlerGetSessionById();
+    this.handlerGetInterSessionById();
     this.initForm();
   }
 
+
   initForm() {
-    this.sessionFormUpdate = new FormGroup({
+    this.interSessionFormUpdate = new FormGroup({
       id: new FormControl(''),
       code: new FormControl(''),
       duration: new FormControl(''),
@@ -113,11 +60,11 @@ export class EditSessionComponent implements OnInit {
     });
   }
 
-  handlerGetSessionById() {
-    this.sessionService.getById(this.id).subscribe(
+  handlerGetInterSessionById() {
+    this.interSessionService.getById(this.id).subscribe(
       (data) => {
-        this.sessionDetail = data;
-        this.sessionFormUpdate.patchValue({
+        this.interSessionDetail = data;
+        this.interSessionFormUpdate.patchValue({
           id: data.id,
           code: data.code,
           duration: data.duration,
@@ -144,16 +91,16 @@ export class EditSessionComponent implements OnInit {
     );
   }
 
-  updateSession() {
+  updateInterSession() {
     this.isFormSessionLoading = true;
-    let sessionUpdate = this.sessionFormUpdate.value;
-    const sessionId = this.id;
-    console.log(sessionUpdate);
-    let creationDate = sessionUpdate.creationDate;
-    sessionUpdate.updateDate = new Date();
+    let interSessionUpdate = this.interSessionFormUpdate.value;
+    const interSessionId = this.id;
+    console.log(interSessionUpdate);
+    let creationDate = interSessionUpdate.creationDate;
+    interSessionUpdate.updateDate = new Date();
 
-    this.sessionService
-      .edit(sessionId, sessionUpdate)
+    this.interSessionService
+      .edit(interSessionId, interSessionUpdate)
       .pipe(
         tap(
           (value) => {
@@ -162,8 +109,8 @@ export class EditSessionComponent implements OnInit {
               'Modification effectuée avec succès!'
             );
             this.isFormSessionLoading = false;
-            this.sessionFormUpdate.reset();
-            this.router.navigate(['dashboard/sessions']);
+            this.interSessionFormUpdate.reset();
+            this.router.navigate(['dashboard/intersessions']);
           },
           (error) => {
             console.log(error);
@@ -183,6 +130,6 @@ export class EditSessionComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/dashboard/sessions']);
+    this.router.navigate(['/dashboard/intersessions']);
   }
 }
