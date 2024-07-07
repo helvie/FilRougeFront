@@ -3,11 +3,20 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Company } from 'src/app/models/Company';
 import { Employee } from 'src/app/models/Employee';
+import { InterSession } from 'src/app/models/InterSession';
+import { IntraSession } from 'src/app/models/IntraSession';
 import { Particular } from 'src/app/models/Particular';
+import { Session } from 'src/app/models/Session';
 import { AlertService } from 'src/app/services/alert.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { EmployeeService } from 'src/app/services/employee.service';
+
+import { InterSessionService } from 'src/app/services/inter-session.service';
+import { IntraSessionService } from 'src/app/services/intra-session.service';
 import { ParticularService } from 'src/app/services/particular.service';
+import { SessionService } from 'src/app/services/session.service';
+import { SubscriptionService } from 'src/app/services/subscription.service';
+
 import Swal from 'sweetalert2';
 
 @Component({
@@ -21,6 +30,18 @@ export class ClientsComponent implements OnInit {
   employees: Employee[] = [];
   companies: Company[] = [];
   isLoading!: boolean;
+
+  // for sessions modal
+  interSessions: InterSession[] = [];
+  intraSessions: IntraSession[] = [];
+  isInterSessionLoading: boolean = false;
+  isIntraSessionLoading: boolean = false;
+  isModalOpen: boolean = false;
+  selectedTraining: string | null = null;
+  sessionType: 'inter' | 'intra' = 'inter';
+  selectedParticular: Particular | null = null;
+  selectedEmployee: Employee | null = null;
+  selectedPersonId: number=0;
 
   showCmp: boolean = false;
   showEmp: boolean = false;
@@ -46,13 +67,20 @@ export class ClientsComponent implements OnInit {
     private particularService: ParticularService,
     private employeeService: EmployeeService,
     private companyService: CompanyService,
-    private alert: AlertService
+    private alert: AlertService,
+    private interSessionService: InterSessionService,
+    private intraSessionService: IntraSessionService,
+    private subscriptionService: SubscriptionService,
+
+
   ) {}
 
   ngOnInit(): void {
     this.getAllParticipants();
     this.getAllCompanies();
     this.initForm();
+    this.getAllInterSessions();
+    this.getAllIntraSessions();
   }
 
 
@@ -258,4 +286,87 @@ export class ClientsComponent implements OnInit {
     this.showEmp = false;
   }
 
-}
+  getAllInterSessions(): void {
+    this.isLoading = true;
+    this.interSessionService.getAll().subscribe(
+      data => {
+        this.interSessions = data;
+        console.log("InterSessions data:", data);
+        this.isLoading = false;
+      },
+      error => {
+        console.error("Erreur lors de la récupération des sessions:", error);
+        this.isLoading = false;
+      }
+    );
+  }
+
+  
+  getAllIntraSessions(): void {
+    this.isLoading = true;
+    this.intraSessionService.getAll().subscribe(
+      data => {
+        this.intraSessions = data;
+        console.log("IntraSessions data:", data);
+        this.isLoading = false;
+      },
+      error => {
+        console.error("Erreur lors de la récupération des sessions:", error);
+        this.isLoading = false;
+      }
+    );
+  }
+
+  openModalForInterSessions() {
+    this.sessionType = 'inter';
+    this.getAllInterSessions();
+    this.isModalOpen = true;
+    console.log("inter affiché")
+  }
+
+  openModalForIntraSessions() {
+    this.sessionType = 'intra';
+    this.getAllIntraSessions();
+    this.isModalOpen = true;
+  }
+
+  openModalForParticular(personId: number) {
+    this.selectedPersonId = personId;
+    this.sessionType = 'inter';
+    this.openModalForInterSessions();
+  }
+
+  openModalForEmployee(personId: number) {
+    this.selectedPersonId = personId;
+    this.sessionType = 'intra';
+    this.openModalForIntraSessions();
+  }
+
+  closeModal() {
+    console.log("click")
+    this.isModalOpen = false;
+  }
+
+  subscribeToSession(sessionId: number) {
+    if (this.selectedParticular) {
+      this.subscriptionService.subscribePersonToInterSession(this.selectedParticular.id, sessionId).subscribe(
+        (response: any) => {
+          console.log('Inscription réussie pour le particulier:', response);
+          this.closeModal();
+        },
+        (error: any) => {
+          console.error('Erreur lors de l\'inscription du particulier:', error);
+        }
+      );
+    } else if (this.selectedEmployee) {
+      this.subscriptionService.subscribePersonToIntraSession(this.selectedEmployee.id, sessionId).subscribe(
+        (response: any) => {
+          console.log('Inscription réussie pour l\'employé:', response);
+          this.closeModal();
+        },
+        (error: any) => {
+          console.error('Erreur lors de l\'inscription de l\'employé:', error);
+        }
+      );
+    }
+  }}

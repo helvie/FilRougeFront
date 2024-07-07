@@ -1,8 +1,21 @@
 <h1 class="h2 mb-3 mt-3 border-bottom">Participants</h1>
+
 <div class="card">
   <div class="card-header bg-white">
     <div class="d-flex justify-content-between">
       <h4 class="card-title">Liste des participants</h4>
+      <div>
+        <app-add-subscription-modal 
+          *ngIf="isModalOpen" 
+          (modalClosed)="closeModal()"
+          [interSessions]="interSessions"
+          [intraSessions]="intraSessions"        
+          [sessionType]="sessionType" 
+          (sessionSelected)="subscribeToSession($event)"
+          [personId]="selectedPersonId" 
+        ></app-add-subscription-modal>
+      </div>
+<!-- (selectedTraining)="onTrainingSelected($event)" -->
       <a
         href="dashboard/clients/insert"
         class="btn btn-primary"
@@ -99,6 +112,12 @@
                 title="Supprimer"
                 ><i class="fa fa-trash"></i></span
               >&nbsp;
+            <button
+            class=""
+            (click)="openModalForParticular(firstparticular.id)"
+            title="Inscrire"
+            >Inscrire</button
+          >&nbsp;
             </td>
           </tr>
         </tbody>
@@ -140,6 +159,12 @@
                 title="Supprimer"
                 ><i class="fa fa-trash"></i></span
               >&nbsp;
+              <button
+              class=""
+              (click)="openModalForEmployee(empl.id)"
+              title="inscrire"
+              >Inscrire</button
+            >&nbsp;
             </td>
           </tr>
         </tbody>

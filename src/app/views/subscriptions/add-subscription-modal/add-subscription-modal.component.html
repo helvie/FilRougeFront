@@ -1,0 +1,32 @@
+<div class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h2>Choisissez une formation</h2>
+      <div *ngIf="isLoadingSessions">Chargement des sessions...</div>
+      <div *ngIf="!isLoadingSessions">
+        <ul>
+          <!-- Utiliser une condition pour afficher la liste correcte des sessions -->
+          <ng-container *ngIf="sessionType === 'intra'; else interSessionList">
+            <li *ngFor="let session of intraSessions">
+              <strong>Code:</strong> {{ session.code }} |
+              <strong>Date:</strong> {{ session.date }} |
+              <strong>Durée:</strong> {{ session.duration }} jours |
+              <strong>Prix:</strong> {{ session.price }} €
+              <button (click)="subscribeToSession(session.id, 'employee')">S'inscrire</button>
+
+            </li>
+          </ng-container>
+          <ng-template #interSessionList>
+            <li *ngFor="let session of interSessions">
+              <strong>Code:</strong> {{ session.code }} |
+              <strong>Date:</strong> {{ session.date }} |
+              <strong>Durée:</strong> {{ session.duration }} jours |
+              <strong>Prix:</strong> {{ session.price }} €
+              <button (click)="subscribeToSession(session.id, 'particular')">S'inscrire</button>
+
+            </li>
+          </ng-template>
+        </ul>
+      </div>
+    </div>
+  </div>
