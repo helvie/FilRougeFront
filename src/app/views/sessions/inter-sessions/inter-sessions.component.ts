@@ -13,6 +13,11 @@ import Swal from 'sweetalert2';
 export class InterSessionsComponent implements OnInit {
   allInterSessions: InterSession[] = [];
   isLoading!: boolean;
+  showSubscriptions: number = 0;
+
+  toggleSubscriptions(id:number) {
+    this.showSubscriptions = this.showSubscriptions==id ? 0 : id;
+  }
 
   constructor(
     private interSessionService: InterSessionService,
@@ -29,6 +34,7 @@ export class InterSessionsComponent implements OnInit {
     this.interSessionService.getAll().subscribe(
       (next) => {
         this.allInterSessions = next;
+        console.log('InterSessions:', this.allInterSessions);
         this.isLoading = false;
       },
       (err) => {

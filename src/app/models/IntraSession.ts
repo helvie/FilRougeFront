@@ -1,4 +1,5 @@
 import { Company } from "./Company"
+import { Employee } from "./Employee";
 
 export interface IntraSession{
     id: number,
@@ -12,8 +13,18 @@ export interface IntraSession{
     sessionScore: number,
     creationDate: Date,
     updateDate: Date,
-    company: Company 
+    company: Company,
+    employeeSubscriptions?: EmployeeSubscription[];
+
 }
+
+export interface EmployeeSubscription {
+    id: number;
+    status: string;
+    creationDate: Date;
+    updateDate: Date;
+    employee?: Employee;
+  }
 
 export const EmptyIntraSession  : IntraSession = {
     id: 0,
@@ -39,6 +50,7 @@ export const EmptyIntraSession  : IntraSession = {
         creationDate: new Date(),
         updateDate: new Date(),
         activity: "",
-        employees: []
+        employees: [],
+
     }
   }

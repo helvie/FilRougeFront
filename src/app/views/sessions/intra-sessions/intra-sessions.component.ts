@@ -13,7 +13,11 @@ import Swal from 'sweetalert2';
 export class IntraSessionsComponent {
   allIntraSessions: IntraSession[] = [];
   isLoading!: boolean;
+  showSubscriptions: number = 0;
 
+  toggleSubscriptions(id:number) {
+    this.showSubscriptions = this.showSubscriptions==id ? 0 : id;
+  }
   constructor(
     private intraSessionService: IntraSessionService,
     private alert: AlertService,
@@ -29,6 +33,8 @@ export class IntraSessionsComponent {
     this.intraSessionService.getAll().subscribe(
       (next) => {
         this.allIntraSessions = next;
+        console.log('IntraSessions:', this.allIntraSessions);
+
         this.isLoading = false;
       },
       (err) => {

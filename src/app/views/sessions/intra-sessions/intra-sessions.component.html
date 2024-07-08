@@ -1,24 +1,23 @@
 <table class="table">
-    <thead>
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Code</th>
+      <th scope="col">Duration</th>
+      <th scope="col">Prix</th>
+      <th scope="col">Description</th>
+      <th scope="col">Entreprise</th>
+      <th scope="col">Status</th>
+      <th scope="col">Date</th>
+      <th scope="col">Location</th>
+      <th scope="col">Score</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let intrasession of allIntraSessions">
       <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Code</th>
-        <th scope="col">Duration</th>
-        <th scope="col">Prix</th>
-        <th scope="col">Description</th>
-        <th scope="col">Entreprise</th>
-        <th scope="col">Status</th>
-        <th scope="col">Date</th>
-        <th scope="col">Location</th>
-        <th scope="col">Score</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let intrasession of allIntraSessions">
-        <td>
-          {{ intrasession.id }}
-        </td>
+        <td>{{ intrasession.id }}</td>
         <td>{{ intrasession.code }}</td>
         <td>{{ intrasession.duration }}&nbsp; mois</td>
         <td>{{ intrasession.price }}&nbsp;€</td>
@@ -29,22 +28,41 @@
         <td>{{ intrasession.location }}</td>
         <td>{{ intrasession.sessionScore }}</td>
         <td>
-          <span
-            (click)="goToUpdate(intrasession.id)"
-            class="text-primary"
-            title="Modifier"
-          >
-            <i class="fa fa-pencil"></i> </span
-          >&nbsp;
-          <span
-            class="text-danger"
-            title="Supprimer"
-            (click)="deleteIntraSessoin(intrasession.id)"
-          >
+          <span (click)="goToUpdate(intrasession.id)" class="text-primary" title="Modifier">
+            <i class="fa fa-pencil"></i>
+          </span>&nbsp;
+          <span class="text-danger" title="Supprimer" (click)="deleteIntraSessoin(intrasession.id)">
             <i class="fa fa-trash"></i>
+          </span>&nbsp;
+          <span class="text-info" title="Afficher abonnements" (click)="toggleSubscriptions(intrasession.id)">
+            <i class="fa fa-eye"></i>
           </span>
         </td>
       </tr>
-    </tbody>
-  </table>
-  
+      <tr *ngIf="intrasession.employeeSubscriptions && intrasession.employeeSubscriptions.length > 0 && showSubscriptions === intrasession.id">
+        <td colspan="11">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="personTitle" scope="col">N°</th>
+                <th class="personTitle" scope="col">Prénom</th>
+                <th class="personTitle" scope="col">Nom</th>
+                <th class="personTitle" scope="col">Statut</th>
+                <th class="personTitle" scope="col">Date d'inscription</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let subscription of intrasession.employeeSubscriptions; let i = index">
+                <td class="personText">{{ i+1 }}</td>
+                <td class="personText">{{ subscription.employee?.firstname }}</td>
+                <td class="personText">{{ subscription.employee?.lastname }}</td>
+                <td class="personText">{{ subscription.status }}</td>
+                <td class="personText">{{ subscription.creationDate | date:'dd/MM/YY' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
