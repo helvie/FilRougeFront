@@ -17,38 +17,66 @@
     </tr>
   </thead>
   <tbody>
-    
-    <tr *ngFor="let intersession of allInterSessions">
-      <!-- <td>
-        {{ intersession.id }}
-      </td> -->
-      <td>{{ intersession.code }}</td>
-      <td>{{ intersession.duration }}mois</td>
-      <td>{{ intersession.price }}&nbsp;€</td>
-      <td class="fixed-column">{{ intersession.description }}</td>
-      <!-- <th>{{ intersession.minParticipants }}</th> -->
-      <th>{{ intersession.training.title }}</th>
-      <!-- <th>{{ intersession.trainer.firstname }}</th> -->
-      <td>{{ intersession.status }}</td>
-      <td>{{ intersession.date | date :"dd/MM/yyyy"  }}</td>
-      <td>{{ intersession.location }}</td>
-      <td>{{ intersession.sessionScore }}</td>
-      <td>
-        <span
-          (click)="goToUpdate(intersession.id)"
-          class="text-primary"
-          title="Modifier"
-        >
-          <i class="fa fa-pencil"></i> </span
-        >&nbsp;
-        <span
-          class="text-danger"
-          title="Supprimer"
-          (click)="deleteInterSessoin(intersession.id)"
-        >
-          <i class="fa fa-trash"></i>
-        </span>
-      </td>
-    </tr>
+    <ng-container *ngFor="let intersession of allInterSessions">
+      <tr *ngFor="let intersession of allInterSessions">
+        <!-- <td>
+          {{ intersession.id }}
+        </td> -->
+        <td>{{ intersession.code }}</td>
+        <td>{{ intersession.duration }}mois</td>
+        <td>{{ intersession.price }}&nbsp;€</td>
+        <td class="fixed-column">{{ intersession.description }}</td>
+        <!-- <th>{{ intersession.minParticipants }}</th> -->
+        <th>{{ intersession.training.title }}</th>
+        <!-- <th>{{ intersession.trainer.firstname }}</th> -->
+        <td>{{ intersession.status }}</td>
+        <td>{{ intersession.date | date :"dd/MM/yyyy"  }}</td>
+        <td>{{ intersession.location }}</td>
+        <td>{{ intersession.sessionScore }}</td>
+        <td>
+          <span
+            (click)="goToUpdate(intersession.id)"
+            class="text-primary"
+            title="Modifier"
+          >
+            <i class="fa fa-pencil"></i> </span
+          >&nbsp;
+          <span
+            class="text-danger"
+            title="Supprimer"
+            (click)="deleteInterSessoin(intersession.id)"
+          >
+            <i class="fa fa-trash"></i>
+          </span>
+          <span class="text-info" title="Afficher" (click)="toggleSubscriptions(intersession.id)">
+            <i class="fa fa-eye"></i>
+          </span>
+        </td>
+      </tr>
+      <tr *ngIf="intersession.particularSubscriptions && intersession.particularSubscriptions.length > 0 && showSubscriptions==intersession.id" style="background-color: blue;" >
+        <td colspan="13">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="personTitle" scope="col">N°</th>
+                <th class="personTitle" scope="col">Prénom</th>
+                <th class="personTitle" scope="col">Nom</th>
+                <th class="personTitle" scope="col">Statut</th>
+                <th class="personTitle" scope="col">Date d'inscription</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let subscription of intersession.particularSubscriptions; let i = index">
+                <td class="personText">{{ i+1 }}</td>
+                <td class="personText">{{ subscription.particular?.firstname }}</td>
+                <td class="personText">{{ subscription.particular?.lastname }}</td>
+                <td class="personText">{{ subscription.status }}</td>
+                <td class="personText">{{ subscription.creationDate | date:'dd/MM/YY' }}</td>              
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </ng-container>
   </tbody>
 </table>

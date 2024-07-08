@@ -10,6 +10,6 @@ import { IntraSession } from "../models/IntraSession";
 export class IntraSessionService extends CrudService<IntraSession>{
     constructor(http: HttpClient){
         const url : string = URL_BASE;
-        super(http, `${url}/intrasessions`)
+        super(http, `${url}/intrasessions/with-subscriptions`)
     }
 }

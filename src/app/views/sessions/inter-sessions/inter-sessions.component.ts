@@ -14,8 +14,13 @@ import { formatDate } from '../sessions.utils';
 export class InterSessionsComponent implements OnInit {
   allInterSessions: InterSession[] = [];
   isLoading!: boolean;
-  formatDate = formatDate
 
+  showSubscriptions: number = 0;
+
+  toggleSubscriptions(id:number) {
+    this.showSubscriptions = this.showSubscriptions==id ? 0 : id;
+  }
+  
   constructor(
     private interSessionService: InterSessionService,
     private alert: AlertService,
@@ -31,6 +36,7 @@ export class InterSessionsComponent implements OnInit {
     this.interSessionService.getAll().subscribe(
       (next) => {
         this.allInterSessions = next;
+        console.log('InterSessions:', this.allInterSessions);
         this.isLoading = false;
       },
       (err) => {
