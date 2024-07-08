@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
@@ -16,6 +16,7 @@ import {LoginComponent} from './public/login/login.component';
 import {AuthInterceptor} from "./interceptor/auth.interceptor";
 import { FormateursComponent } from './views/formateurs/formateurs.component';
 import { InsertFormateurComponent } from './views/formateurs/insert-formateur/insert-formateur.component';
+import { AddSubscriptionModalComponent } from './views/subscriptions/add-subscription-modal/add-subscription-modal.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { InsertFormateurComponent } from './views/formateurs/insert-formateur/in
     InsertClientComponent,
     LoginComponent,
     FormateursComponent,
-    InsertFormateurComponent
+    InsertFormateurComponent,
+    AddSubscriptionModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,10 +46,12 @@ import { InsertFormateurComponent } from './views/formateurs/insert-formateur/in
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true
+      multi: true,
+
     }
   ],
-  bootstrap: [AppComponent]
+schemas: [CUSTOM_ELEMENTS_SCHEMA],
+bootstrap: [AppComponent]
 })
 export class AppModule {
 }
