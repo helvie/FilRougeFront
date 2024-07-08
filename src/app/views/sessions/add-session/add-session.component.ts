@@ -147,7 +147,6 @@ export class AddSessionComponent implements OnInit {
 
   saveInterSession() {
     let interSessionSave = this.createInterSession();
-    console.log(interSessionSave);
     this.interSessionService
       .save(interSessionSave)
       .pipe(
@@ -206,6 +205,7 @@ export class AddSessionComponent implements OnInit {
   }
 
   responseSuccesOnSave(response: any) {
+    console.log(response)
     this.toastService.alertSuccess('Enregistrement effectué avec succès!');
     this.isFormSessionLoading = false;
     this.sessionForm.reset();

@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { InterSessionService } from 'src/app/services/inter-session.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { tap } from 'rxjs';
-import { Status } from '../../sessions.utils';
+import { Status, formatDate } from '../../sessions.utils';
 import { Training } from 'src/app/models/Training';
 import { Trainer } from 'src/app/models/Trainer';
 import { TrainingService } from 'src/app/services/training.service';
@@ -29,6 +29,7 @@ export class EditInterSesssionComponent {
   allTrainers: Trainer[] = [];
   isFormSessionLoading!: boolean;
   interSessionFormUpdate: FormGroup;
+  formatDate = formatDate
 
   constructor(
     private route: ActivatedRoute,
@@ -63,20 +64,21 @@ export class EditInterSesssionComponent {
     this.initForm();
   }
 
+
   initForm() {
-    this.interSessionFormUpdate = new FormGroup({
-      id: new FormControl(''),
-      code: new FormControl(''),
-      duration: new FormControl(''),
-      price: new FormControl(''),
-      description: new FormControl(''),
-      status: new FormControl([]),
-      date: new FormControl([]),
-      location: new FormControl([]),
-      minParticipants: new FormControl(''),
-      sessionScore: new FormControl([]),
-      training: new FormControl([]),
-      trainer: new FormControl([])
+    this.interSessionFormUpdate.patchValue({
+      code: this.interSessionDetail.code,
+      id: this.interSessionDetail.id, 
+      duration: this.interSessionDetail.duration,
+      price: this.interSessionDetail.price, 
+      minParticipants: this.interSessionDetail.minParticipants,
+      status: this.interSessionDetail.status,
+      date: formatDate(this.interSessionDetail.date),
+      location: this.interSessionDetail.location, 
+      sessionScore: this.interSessionDetail.sessionScore, 
+      description: this.interSessionDetail.description, 
+      training: this.interSessionDetail.training?.id,
+      trainer: this.interSessionDetail.trainer?.id
     });
   }
 
@@ -96,6 +98,7 @@ export class EditInterSesssionComponent {
       }
     );
   }
+
   getAllTrainers() {
     this.isFormSessionLoading = true;
     this.trainerService.getAll().subscribe(
@@ -117,20 +120,7 @@ export class EditInterSesssionComponent {
     this.interSessionService.getById(this.id).subscribe(
       (data) => {
         this.interSessionDetail = data;
-        this.interSessionFormUpdate.patchValue({
-          id: data.id,
-          code: data.code,
-          duration: data.duration,
-          description: data.description,
-          creationDate: data.creationDate,
-          price: data.price,
-          status: data.status,
-          date: data.date,
-          location: data.location,
-          sessionScore: data.sessionScore,
-          trainer: data.trainer,
-          training: data.training
-        });
+        this.initForm()
       },
       (err) => {
         this.alert.alertError(
@@ -140,7 +130,15 @@ export class EditInterSesssionComponent {
     );
   }
 
-  isSelected(status: String): boolean {
+  isSelectedTraining(trainingId: number){
+    return this.allTrainings.some(selectedTraining => selectedTraining.id ===trainingId)
+  }
+
+  isSelectedTrainer(trainerId: number){
+    return this.allTrainers.some(selectedTrainer => selectedTrainer.id ===trainerId)
+  }
+
+  isSelectedStatus(status: String): boolean {
     return this.statusValues.some(
       (selectedStatus) => selectedStatus === status
     );
@@ -148,18 +146,25 @@ export class EditInterSesssionComponent {
 
   updateInterSession() {
     this.isFormSessionLoading = true;
-    let interSessionUpdate = this.interSessionFormUpdate.value;
     const interSessionId = this.id;
-    console.log(interSessionUpdate);
-    let creationDate = interSessionUpdate.creationDate;
-    interSessionUpdate.updateDate = new Date();
+  
+    const formValues = this.interSessionFormUpdate.value;
+    let interSessionUpdate = {
+      ...formValues,
+      training: this.allTrainings.find(
+        (t) => t.id === parseInt(formValues.training)
+      ),
+      trainer: this.allTrainers.find(
+        (t) => t.id === parseInt(formValues.trainer)
+      ),
+    };
 
     this.interSessionService
       .edit(interSessionId, interSessionUpdate)
       .pipe(
         tap(
           (value) => {
-            let sessionResponse = value;
+            console.log(value)
             this.toastService.alertSuccess(
               'Modification effectuée avec succès!'
             );
