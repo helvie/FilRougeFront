@@ -11,6 +11,7 @@ import {Employee} from "../../models/Employee";
 import {Particular} from "../../models/Particular";
 import { Session } from 'src/app/models/Session';
 import { SessionService } from 'src/app/services/session.service';
+import { ClientsComponent } from '../clients/clients.component';
 
 @Component({
   selector: 'app-content-dashboard',

@@ -1,7 +1,7 @@
 <div
   class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
 >
-  <h1 class="h2">IntraSessions</h1>
+  <h1 class="h2">Sessions Intra-Entreprises</h1>
 </div>
 
 <div class="col-lg-12">
@@ -9,7 +9,7 @@
     <div class="col-xl-12 col-xxl-12 col-sm-12">
       <div class="card">
         <div class="card-header" style="background-color: #fff">
-          <h4 class="card-title">Modification IntraSession</h4>
+          <h4 class="card-title">Modification session intra-entreprises</h4>
         </div>
         <div class="card-body">
           <span style="font-style: italic">
@@ -17,7 +17,6 @@
           </span>
           <form [formGroup]="intraSessionFormUpdate">
             <div class="row">
-              
               <!-- code & id -->
               <div class="col-sm-4">
                 <div class="form-group">
@@ -41,12 +40,12 @@
                   </div>
                 </div>
               </div>
-              
+
               <!-- duration -->
               <div class="col-sm-4">
                 <div class="form-group">
                   <div class="form-label" for="Enter_Duration">
-                    Duration <span class="text-danger">*</span>
+                    Durée <span class="text-danger">*</span>
                     <input
                       id="Enter_Duration"
                       type="number"
@@ -80,14 +79,14 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <div class="form-label" for="Enter_Status">
-                    Status <span class="text-danger">*</span>
+                    Statut <span class="text-danger">*</span>
                     <select
                       id="Enter_Status"
                       class="form-control"
                       formControlName="status"
                     >
                       <option value="" disabled selected>
-                        Sélectionner un status
+                        Sélectionner un statut
                       </option>
 
                       <option
@@ -105,12 +104,14 @@
               <!-- date -->
               <div class="col-sm-6">
                 <div class="form-group">
-                  <label for="Enter_Date">Date <span class="text-danger">*</span></label>
+                  <label for="Enter_Date"
+                    >Date <span class="text-danger">*</span></label
+                  >
                   <input
                     id="Enter_Date"
                     type="date"
                     class="form-control"
-                    [value]="formatDate(intraSessionDetail.date)"
+                    [value]="intraSessionDetail.date|date:'yyyy-MM-dd'"
                     formControlName="date"
                     required
                   />
@@ -121,7 +122,7 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <div class="form-label" for="Enter_Location">
-                    Location <span class="text-danger">*</span>
+                    Lieu <span class="text-danger">*</span>
                     <input
                       id="Enter_Location"
                       type="text"

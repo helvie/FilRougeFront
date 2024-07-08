@@ -27,7 +27,6 @@ export class EditIntraSesssionComponent {
   allCompanies: Company[] = [];
   isFormSessionLoading!: boolean;
   intraSessionFormUpdate: FormGroup;
-  formatDate = formatDate;
 
   constructor(
     private route: ActivatedRoute,
