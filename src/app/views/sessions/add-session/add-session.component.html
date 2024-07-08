@@ -15,7 +15,7 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="form-label" for="Enter_Type_Session">
-                Type de sesion <span class="text-danger">*</span>
+                Type de session <span class="text-danger">*</span>
                 <select
                   id="Enter_Type_Session"
                   class="form-control"
@@ -50,11 +50,11 @@
             </div>
           </div>
 
-          <!-- duration -->
+          <!-- durée -->
           <div class="col-sm-4">
             <div class="form-group">
               <div class="form-label" for="Enter_Duration">
-                Duration <span class="text-danger">*</span>
+                Durée <span class="text-danger">*</span>
                 <input
                   id="Enter_Duration"
                   type="number"
@@ -86,7 +86,7 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="form-label" for="Enter_Location">
-                Location <span class="text-danger">*</span>
+                Lieu <span class="text-danger">*</span>
                 <input
                   id="Enter_Location"
                   type="text"
@@ -102,14 +102,14 @@
           <div class="col-sm-4">
             <div class="form-group">
               <div class="form-label" for="Enter_Status">
-                Status <span class="text-danger">*</span>
+                Statut <span class="text-danger">*</span>
                 <select
                   id="Enter_Status"
                   class="form-control"
                   formControlName="status"
                 >
                   <option value="" disabled selected>
-                    Sélectionner un status
+                    Sélectionner un statut
                   </option>
 
                   <option *ngFor="let status of statusValues" [value]="status">
@@ -155,7 +155,7 @@
           <div class="col-sm-4" *ngIf="sessionType === 'InterSession'">
             <div class="form-group">
               <div class="form-label" for="Enter_MinParticipants">
-                Nb Min de Participants <span class="text-danger">*</span>
+                Minimum de participants <span class="text-danger">*</span>
                 <input
                   id="Enter_MinParticipants"
                   type="number"

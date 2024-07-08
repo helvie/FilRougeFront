@@ -1,41 +1,51 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Id</th>
+      <!-- <th scope="col">Id</th> -->
       <th scope="col">Code</th>
-      <th scope="col">Duration</th>
+      <th scope="col">Durée</th>
       <th scope="col">Prix</th>
       <th scope="col">Description</th>
-      <th scope="col">MinParticipants</th>
+      <!-- <th scope="col">MinParticipants</th> -->
       <th scope="col">Formation</th>
-      <th scope="col">Formateur</th>
-      <th scope="col">Status</th>
+      <!-- <th scope="col">Formateur</th> -->
+      <th scope="col">Statut</th>
       <th scope="col">Date</th>
-      <th scope="col">Location</th>
+      <th scope="col">Lieu</th>
       <th scope="col">Score</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
     <ng-container *ngFor="let intersession of allInterSessions">
-      <tr>
-        <td>{{ intersession.id }}</td>
+      <tr *ngFor="let intersession of allInterSessions">
+        <!-- <td>
+          {{ intersession.id }}
+        </td> -->
         <td>{{ intersession.code }}</td>
-        <td>{{ intersession.duration }}&nbsp; mois</td>
+        <td>{{ intersession.duration }}mois</td>
         <td>{{ intersession.price }}&nbsp;€</td>
-        <td>{{ intersession.description }}</td>
-        <td>{{ intersession.minParticipants }}</td>
-        <td>{{ intersession.training?.title }}</td>
-        <td>{{ intersession.trainer?.firstname }}</td>
+        <td class="fixed-column">{{ intersession.description }}</td>
+        <!-- <th>{{ intersession.minParticipants }}</th> -->
+        <th>{{ intersession.training.title }}</th>
+        <!-- <th>{{ intersession.trainer.firstname }}</th> -->
         <td>{{ intersession.status }}</td>
-        <td>{{ intersession.date | date }}</td>
+        <td>{{ intersession.date | date :"dd/MM/yyyy"  }}</td>
         <td>{{ intersession.location }}</td>
         <td>{{ intersession.sessionScore }}</td>
         <td>
-          <span (click)="goToUpdate(intersession.id)" class="text-primary" title="Modifier">
-            <i class="fa fa-pencil"></i>
-          </span>&nbsp;
-          <span class="text-danger" title="Supprimer" (click)="deleteInterSessoin(intersession.id)">
+          <span
+            (click)="goToUpdate(intersession.id)"
+            class="text-primary"
+            title="Modifier"
+          >
+            <i class="fa fa-pencil"></i> </span
+          >&nbsp;
+          <span
+            class="text-danger"
+            title="Supprimer"
+            (click)="deleteInterSessoin(intersession.id)"
+          >
             <i class="fa fa-trash"></i>
           </span>
           <span class="text-info" title="Afficher" (click)="toggleSubscriptions(intersession.id)">

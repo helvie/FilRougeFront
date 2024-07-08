@@ -29,7 +29,6 @@ export class EditInterSesssionComponent {
   allTrainers: Trainer[] = [];
   isFormSessionLoading!: boolean;
   interSessionFormUpdate: FormGroup;
-  formatDate = formatDate
 
   constructor(
     private route: ActivatedRoute,
@@ -63,7 +62,6 @@ export class EditInterSesssionComponent {
     this.getAllTrainers();
     this.initForm();
   }
-
 
   initForm() {
     this.interSessionFormUpdate.patchValue({

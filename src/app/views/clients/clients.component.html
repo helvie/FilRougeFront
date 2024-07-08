@@ -5,17 +5,17 @@
     <div class="d-flex justify-content-between">
       <h4 class="card-title">Liste des participants</h4>
       <div>
-        <app-add-subscription-modal 
-          *ngIf="isModalOpen" 
+        <app-add-subscription-modal
+          *ngIf="isModalOpen"
           (modalClosed)="closeModal()"
           [interSessions]="interSessions"
-          [intraSessions]="intraSessions"        
-          [sessionType]="sessionType" 
+          [intraSessions]="intraSessions"
+          [sessionType]="sessionType"
           (sessionSelected)="subscribeToSession($event)"
-          [personId]="selectedPersonId" 
+          [personId]="selectedPersonId"
         ></app-add-subscription-modal>
       </div>
-<!-- (selectedTraining)="onTrainingSelected($event)" -->
+      <!-- (selectedTraining)="onTrainingSelected($event)" -->
       <a
         href="dashboard/clients/insert"
         class="btn btn-primary"
@@ -40,27 +40,19 @@
     <div class="row mb-3 d-flex justify-content-between">
       <div class="col-md-3 d-flex">
         <label for="entries" class="form-label me-2">Afficher</label>
-        <form  [formGroup]="filterForm" class="w-25">
-          <select
-              formControlName="filter"
-              class="form-control"
-              id="entries"
-            >
-              <option value="5">5</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
+        <form [formGroup]="filterForm" class="w-25">
+          <select formControlName="filter" class="form-control" id="entries">
+            <option value="5">5</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
         </form>
-        <label for="entries">entrées</label>
+        <label for="entries">&nbsp;entrées</label>
       </div>
       <div class="col-md-4">
-        <form
-          [formGroup]="searchForm"
-          class="position-relative"
-        >
-          <i
-            class="fas fa-search search"></i>
+        <form [formGroup]="searchForm" class="position-relative">
+          <i class="fas fa-search search"></i>
           <input
             formControlName="keyWord"
             (input)="searchByName()"
@@ -111,13 +103,14 @@
                 (click)="deleteClients(firstparticular.id, 'particulier')"
                 title="Supprimer"
                 ><i class="fa fa-trash"></i></span
-              >&nbsp;
-            <button
-            class=""
-            (click)="openModalForParticular(firstparticular.id)"
-            title="Inscrire"
-            >Inscrire</button
-          >&nbsp;
+              >
+              <button
+                class="btn btn-link"
+                (click)="openModalForParticular(firstparticular.id)"
+                title="Inscrire"
+              >
+                Inscrire
+              </button>
             </td>
           </tr>
         </tbody>
@@ -158,13 +151,14 @@
                 (click)="deleteClients(empl.id, 'employe')"
                 title="Supprimer"
                 ><i class="fa fa-trash"></i></span
-              >&nbsp;
+              >
               <button
-              class=""
-              (click)="openModalForEmployee(empl.id)"
-              title="inscrire"
-              >Inscrire</button
-            >&nbsp;
+                class="btn btn-link"
+                (click)="openModalForEmployee(empl.id)"
+                title="inscrire"
+              >
+                Inscrire
+              </button>
             </td>
           </tr>
         </tbody>
@@ -208,7 +202,7 @@
       </table>
     </div>
     <div class="row mt-3 d-flex justify-content-between">
-      <div class="col-md-6">
+      <!-- <div class="col-md-6">
         <p class="m-0">
           Affichage de {{ filterForm.value.filter }} entrées sur
           {{
@@ -221,6 +215,8 @@
         </p>
       </div>
       <div class="col-md-6 d-flex justify-content-end">
+      </div> -->
+      <div class="text-center">
         <pagination-controls
           (pageChange)="handlePageChange($event)"
           (pageBoundsCorrection)="handlePageChange($event)"

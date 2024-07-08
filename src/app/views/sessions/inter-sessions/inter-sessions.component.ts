@@ -4,6 +4,7 @@ import { InterSession } from 'src/app/models/InterSession';
 import { AlertService } from 'src/app/services/alert.service';
 import { InterSessionService } from 'src/app/services/inter-session.service';
 import Swal from 'sweetalert2';
+import { formatDate } from '../sessions.utils';
 
 @Component({
   selector: 'app-inter-sessions',
@@ -13,12 +14,13 @@ import Swal from 'sweetalert2';
 export class InterSessionsComponent implements OnInit {
   allInterSessions: InterSession[] = [];
   isLoading!: boolean;
+
   showSubscriptions: number = 0;
 
   toggleSubscriptions(id:number) {
     this.showSubscriptions = this.showSubscriptions==id ? 0 : id;
   }
-
+  
   constructor(
     private interSessionService: InterSessionService,
     private alert: AlertService,

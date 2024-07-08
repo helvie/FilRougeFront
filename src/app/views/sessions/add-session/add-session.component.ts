@@ -212,7 +212,7 @@ export class AddSessionComponent implements OnInit {
     setTimeout(() => {
       this.sessionForm.reset();
       window.location.reload();
-    }, 1000);
+    }, 10);
   }
 
   responseErrorOnSave(error: any) {

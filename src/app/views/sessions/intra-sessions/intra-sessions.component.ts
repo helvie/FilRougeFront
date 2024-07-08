@@ -4,6 +4,7 @@ import { IntraSession } from 'src/app/models/IntraSession';
 import { AlertService } from 'src/app/services/alert.service';
 import { IntraSessionService } from 'src/app/services/intra-session.service';
 import Swal from 'sweetalert2';
+import { formatDate } from '../sessions.utils';
 
 @Component({
   selector: 'app-intra-sessions',
