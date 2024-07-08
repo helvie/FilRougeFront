@@ -80,7 +80,7 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <div class="form-label" for="Enter_MinParticipants">
-                    Prix <span class="text-danger">*</span>
+                    Min participants <span class="text-danger">*</span>
                     <input
                       id="Enter_MinParticipants"
                       type="number"
@@ -109,7 +109,7 @@
 
                       <option
                         *ngFor="let status of statusValues"
-                        [selected]="isSelected(status)"
+                        [selected]="isSelectedStatus(status)"
                         [value]="status"
                       >
                         {{ status }}
@@ -122,16 +122,15 @@
               <!-- date -->
               <div class="col-sm-6">
                 <div class="form-group">
-                  <div class="form-label" for="Enter_Date">
-                    Date <span class="text-danger">*</span>
-                    <input
-                      id="Enter_Date"
-                      type="date"
-                      class="form-control"
-                      value="{{ interSessionDetail.date }}"
-                      formControlName="date"
-                    />
-                  </div>
+                  <label for="Enter_Date">Date <span class="text-danger">*</span></label>
+                  <input
+                    id="Enter_Date"
+                    type="date"
+                    class="form-control"
+                    [value]="formatDate(interSessionDetail.date)"
+                    formControlName="date"
+                    required
+                  />
                 </div>
               </div>
 
@@ -170,7 +169,7 @@
               </div>
 
               <!-- formation -->
-              <!-- <div class="col-sm-6">
+              <div class="col-sm-6">
                 <div class="form-group">
                   <div class="form-label" for="Enter_Training">
                     Formation <span class="text-danger">*</span>
@@ -185,17 +184,18 @@
 
                       <option
                         *ngFor="let training of allTrainings"
-                        [value]="training"
+                        [selected]="isSelectedTraining(training.id)"
+                        [value]="training.id"
                       >
                         {{ training.title }}
                       </option>
                     </select>
                   </div>
                 </div>
-              </div> -->
+              </div>
 
               <!-- formateur -->
-              <!-- <div class="col-sm-6">
+              <div class="col-sm-6">
                 <div class="form-group">
                   <div class="form-label" for="Enter_Trainer">
                     Formateur <span class="text-danger">*</span>
@@ -210,14 +210,15 @@
 
                       <option
                         *ngFor="let trainer of allTrainers"
-                        [value]="trainer"
+                        [selected]="isSelectedTrainer(trainer.id)"
+                        [value]="trainer.id"
                       >
                         {{ trainer.firstname }}&nbsp;{{trainer.lastname}}
                       </option>
                     </select>
                   </div>
                 </div>
-              </div> -->
+              </div>
 
               <!-- description -->
               <div class="col-lg-12 col-md-12 col-sm-12">
@@ -241,9 +242,7 @@
                 <div style="float: right">
                   <button
                     type="submit"
-                    [disabled]="
-                      interSessionFormUpdate.invalid || isFormSessionLoading
-                    "
+                    [disabled]="interSessionFormUpdate.invalid || isFormSessionLoading"
                     class="btn btn-primary"
                     (click)="updateInterSession()"
                   >

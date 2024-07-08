@@ -168,7 +168,7 @@
           </div>
 
           <!-- formation -->
-          <!-- <div class="col-sm-6" *ngIf="sessionType === 'InterSession'">
+          <div class="col-sm-6" *ngIf="sessionType === 'InterSession'">
             <div class="form-group">
               <div class="form-label" for="Enter_Training">
                 Formation <span class="text-danger">*</span>
@@ -183,17 +183,17 @@
 
                   <option
                     *ngFor="let training of allTrainings"
-                    [value]="training"
+                    [value]="training.id"
                   >
                     {{ training.title }}
                   </option>
                 </select>
               </div>
             </div>
-          </div> -->
+          </div>
 
           <!-- formateur -->
-          <!-- <div class="col-sm-6" *ngIf="sessionType === 'InterSession'">
+          <div class="col-sm-6" *ngIf="sessionType === 'InterSession'">
             <div class="form-group">
               <div class="form-label" for="Enter_Trainer">
                 Formateur <span class="text-danger">*</span>
@@ -205,17 +205,19 @@
                   <option value="" disabled selected>
                     Sélectionner un formateur
                   </option>
-
-                  <option *ngFor="let trainer of allTrainers" [value]="trainer">
+                  <option
+                    *ngFor="let trainer of allTrainers"
+                    [value]="trainer.id"
+                  >
                     {{ trainer.firstname }}&nbsp;{{ trainer.lastname }}
                   </option>
                 </select>
               </div>
             </div>
-          </div> -->
+          </div>
 
           <!-- company -->
-          <!-- <div class="col-sm-4" *ngIf="sessionType === 'IntraSession'">
+          <div class="col-sm-4" *ngIf="sessionType === 'IntraSession'">
             <div class="form-group">
               <div class="form-label" for="Enter_Company">
                 Entreprise <span class="text-danger">*</span>
@@ -225,19 +227,19 @@
                   formControlName="company"
                 >
                   <option value="" disabled selected>
-                    Sélectionner un status
+                    Sélectionner une entreprise
                   </option>
 
                   <option
                     *ngFor="let company of allCompanies"
-                    [value]="company"
+                    [value]="company.id"
                   >
                     {{ company.name }}
                   </option>
                 </select>
               </div>
             </div>
-          </div> -->
+          </div>
 
           <!-- description -->
           <div class="col-lg-12 col-md-12 col-sm-12">
