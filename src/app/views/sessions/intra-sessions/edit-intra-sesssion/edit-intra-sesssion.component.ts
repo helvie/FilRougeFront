@@ -6,6 +6,8 @@ import { EmptyIntraSession, IntraSession } from 'src/app/models/IntraSession';
 import { AlertService } from 'src/app/services/alert.service';
 import { IntraSessionService } from 'src/app/services/intra-session.service';
 import { Status } from '../../sessions.utils';
+import { CompanyService } from 'src/app/services/company.service';
+import { Company } from 'src/app/models/Company';
 
 @Component({
   selector: 'app-edit-intra-sesssion',
@@ -17,6 +19,7 @@ export class EditIntraSesssionComponent {
   intraSessionDetail : IntraSession = EmptyIntraSession;
 
   statusValues: String[] = Object.values(Status);
+  allCompanies : Company[] = []
   isFormSessionLoading!: boolean;
   intraSessionFormUpdate: FormGroup;
 
@@ -24,6 +27,7 @@ export class EditIntraSesssionComponent {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private intraSessionService: IntraSessionService,
+    private companyService: CompanyService,
     private alert: AlertService,
     private toastService: AlertService,
     private router: Router
@@ -43,6 +47,7 @@ export class EditIntraSesssionComponent {
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     this.handlerGetIntraSessionById();
+    this.getAllCompanies();
     this.initForm();
   }
 
@@ -58,8 +63,27 @@ export class EditIntraSesssionComponent {
       date: new FormControl([]),
       location: new FormControl([]),
       sessionScore: new FormControl([]),
+      company: new FormControl([])
     });
   }
+
+  getAllCompanies() {
+    this.isFormSessionLoading = true;
+    this.companyService.getAll().subscribe(
+      (next) => {
+        this.allCompanies = next;
+        this.isFormSessionLoading = false;
+      },
+      (err) => {
+        this.alert.alertError(
+          err.error !== null
+            ? err.error.message
+            : 'Impossible de récupérer les companies'
+        );
+      }
+    );
+  }
+
 
   handlerGetIntraSessionById() {
     this.intraSessionService.getById(this.id).subscribe(
@@ -76,6 +100,7 @@ export class EditIntraSesssionComponent {
           date: data.date,
           location: data.location,
           sessionScore: data.sessionScore,
+          company: data.company
         });
       },
       (err) => {
@@ -111,7 +136,7 @@ export class EditIntraSesssionComponent {
             );
             this.isFormSessionLoading = false;
             this.intraSessionFormUpdate.reset();
-            this.router.navigate(['dashboard/intrasessions']);
+            this.router.navigate(['dashboard/sessions']);
           },
           (error) => {
             console.log(error);
@@ -131,7 +156,7 @@ export class EditIntraSesssionComponent {
   }
 
   cancel() {
-    this.router.navigate(['/dashboard/intrasessions']);
+    this.router.navigate(['/dashboard/sessions']);
   }
 
 }
