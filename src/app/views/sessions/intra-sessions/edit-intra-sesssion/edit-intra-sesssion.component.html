@@ -17,6 +17,7 @@
           </span>
           <form [formGroup]="intraSessionFormUpdate">
             <div class="row">
+              
               <!-- code & id -->
               <div class="col-sm-4">
                 <div class="form-group">
@@ -40,6 +41,7 @@
                   </div>
                 </div>
               </div>
+              
               <!-- duration -->
               <div class="col-sm-4">
                 <div class="form-group">
@@ -56,6 +58,7 @@
                   </div>
                 </div>
               </div>
+
               <!-- price -->
               <div class="col-sm-4">
                 <div class="form-group">
@@ -72,6 +75,7 @@
                   </div>
                 </div>
               </div>
+
               <!-- status -->
               <div class="col-sm-6">
                 <div class="form-group">
@@ -88,7 +92,7 @@
 
                       <option
                         *ngFor="let status of statusValues"
-                        [selected]="isSelected(status)"
+                        [selected]="isSelectedStatus(status)"
                         [value]="status"
                       >
                         {{ status }}
@@ -97,21 +101,22 @@
                   </div>
                 </div>
               </div>
+
               <!-- date -->
               <div class="col-sm-6">
                 <div class="form-group">
-                  <div class="form-label" for="Enter_Date">
-                    Date <span class="text-danger">*</span>
-                    <input
-                      id="Enter_Date"
-                      type="date"
-                      class="form-control"
-                      value="{{ intraSessionDetail.date }}"
-                      formControlName="date"
-                    />
-                  </div>
+                  <label for="Enter_Date">Date <span class="text-danger">*</span></label>
+                  <input
+                    id="Enter_Date"
+                    type="date"
+                    class="form-control"
+                    [value]="formatDate(intraSessionDetail.date)"
+                    formControlName="date"
+                    required
+                  />
                 </div>
               </div>
+
               <!-- location -->
               <div class="col-sm-6">
                 <div class="form-group">
@@ -128,6 +133,7 @@
                   </div>
                 </div>
               </div>
+
               <!-- sessionScore -->
               <div class="col-sm-6">
                 <div class="form-group">
@@ -146,7 +152,7 @@
               </div>
 
               <!-- company -->
-              <!-- <div class="col-sm-6">
+              <div class="col-sm-6">
                 <div class="form-group">
                   <div class="form-label" for="Enter_Company">
                     Entreprise <span class="text-danger">*</span>
@@ -161,15 +167,16 @@
 
                       <option
                         *ngFor="let company of allCompanies"
-                        [value]="company"
+                        [selected]="isSelectedCompany(company.id)"
+                        [value]="company.id"
                       >
                         {{ company.name }}
                       </option>
                     </select>
                   </div>
                 </div>
-              </div> -->
-              
+              </div>
+
               <!-- description -->
               <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="form-group">

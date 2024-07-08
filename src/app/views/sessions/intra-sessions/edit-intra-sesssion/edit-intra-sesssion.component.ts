@@ -1,27 +1,33 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { EmptyIntraSession, IntraSession } from 'src/app/models/IntraSession';
 import { AlertService } from 'src/app/services/alert.service';
 import { IntraSessionService } from 'src/app/services/intra-session.service';
-import { Status } from '../../sessions.utils';
+import { Status, formatDate } from '../../sessions.utils';
 import { CompanyService } from 'src/app/services/company.service';
 import { Company } from 'src/app/models/Company';
 
 @Component({
   selector: 'app-edit-intra-sesssion',
   templateUrl: './edit-intra-sesssion.component.html',
-  styleUrls: ['./edit-intra-sesssion.component.scss']
+  styleUrls: ['./edit-intra-sesssion.component.scss'],
 })
 export class EditIntraSesssionComponent {
-  id!:number;
-  intraSessionDetail : IntraSession = EmptyIntraSession;
+  id!: number;
+  intraSessionDetail: IntraSession = EmptyIntraSession;
 
   statusValues: String[] = Object.values(Status);
-  allCompanies : Company[] = []
+  allCompanies: Company[] = [];
   isFormSessionLoading!: boolean;
   intraSessionFormUpdate: FormGroup;
+  formatDate = formatDate;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +37,7 @@ export class EditIntraSesssionComponent {
     private alert: AlertService,
     private toastService: AlertService,
     private router: Router
-  ){
+  ) {
     this.intraSessionFormUpdate = this.formBuilder.group({
       id: ['', Validators.required],
       code: ['', Validators.required],
@@ -42,6 +48,7 @@ export class EditIntraSesssionComponent {
       date: ['', Validators.required],
       location: ['', Validators.required],
       sessionScore: ['', Validators.required],
+      company: ['', Validators.required],
     });
   }
   ngOnInit(): void {
@@ -51,19 +58,18 @@ export class EditIntraSesssionComponent {
     this.initForm();
   }
 
-
   initForm() {
-    this.intraSessionFormUpdate = new FormGroup({
-      id: new FormControl(''),
-      code: new FormControl(''),
-      duration: new FormControl(''),
-      price: new FormControl(''),
-      description: new FormControl(''),
-      status: new FormControl([]),
-      date: new FormControl([]),
-      location: new FormControl([]),
-      sessionScore: new FormControl([]),
-      company: new FormControl([])
+    this.intraSessionFormUpdate.patchValue({
+      code: this.intraSessionDetail.code,
+      id: this.intraSessionDetail.id,
+      duration: this.intraSessionDetail.duration,
+      price: this.intraSessionDetail.price,
+      status: this.intraSessionDetail.status,
+      date: formatDate(this.intraSessionDetail.date),
+      location: this.intraSessionDetail.location,
+      sessionScore: this.intraSessionDetail.sessionScore,
+      description: this.intraSessionDetail.description,
+      company: this.intraSessionDetail.company?.id  
     });
   }
 
@@ -84,24 +90,11 @@ export class EditIntraSesssionComponent {
     );
   }
 
-
   handlerGetIntraSessionById() {
     this.intraSessionService.getById(this.id).subscribe(
       (data) => {
         this.intraSessionDetail = data;
-        this.intraSessionFormUpdate.patchValue({
-          id: data.id,
-          code: data.code,
-          duration: data.duration,
-          description: data.description,
-          creationDate: data.creationDate,
-          price: data.price,
-          status: data.status,
-          date: data.date,
-          location: data.location,
-          sessionScore: data.sessionScore,
-          company: data.company
-        });
+        this.initForm();
       },
       (err) => {
         this.alert.alertError(
@@ -111,7 +104,13 @@ export class EditIntraSesssionComponent {
     );
   }
 
-  isSelected(status: String): boolean {
+  isSelectedCompany(companyId: number) {
+    return this.allCompanies.some(
+      (selectedCompany) => selectedCompany.id === companyId
+    );
+  }
+
+  isSelectedStatus(status: String): boolean {
     return this.statusValues.some(
       (selectedStatus) => selectedStatus === status
     );
@@ -119,18 +118,22 @@ export class EditIntraSesssionComponent {
 
   updateIntraSession() {
     this.isFormSessionLoading = true;
-    let intraSessionUpdate = this.intraSessionFormUpdate.value;
     const interSessionId = this.id;
-    console.log(intraSessionUpdate);
-    let creationDate = intraSessionUpdate.creationDate;
-    intraSessionUpdate.updateDate = new Date();
+
+    const formValues = this.intraSessionFormUpdate.value;
+    let intraSessionUpdate = {
+      ...formValues,
+      company: this.allCompanies.find(
+        (c) => c.id === parseInt(formValues.company)
+      ),
+    };
 
     this.intraSessionService
       .edit(interSessionId, intraSessionUpdate)
       .pipe(
         tap(
           (value) => {
-            let sessionResponse = value;
+            console.log(value);
             this.toastService.alertSuccess(
               'Modification effectuée avec succès!'
             );
@@ -158,5 +161,4 @@ export class EditIntraSesssionComponent {
   cancel() {
     this.router.navigate(['/dashboard/sessions']);
   }
-
 }
