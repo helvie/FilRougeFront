@@ -30,27 +30,27 @@ export class AddSessionComponent implements OnInit {
 
   statusValues: String[] = Object.values(Status);
   sessionTypes: String[] = ['IntraSession', 'InterSession'];
-  allCompanies: Company[] = []
-  allTrainings: Training[] = []
-  allTrainers: Trainer[]=[]
-  
+  allCompanies: Company[] = [];
+  allTrainings: Training[] = [];
+  allTrainers: Trainer[] = [];
+
   constructor(
     private interSessionService: InterSessionService,
     private intraSessionService: IntraSessionService,
     private alert: AlertService,
     private router: Router,
     private toastService: AlertService,
-    private companyService : CompanyService,
-    private trainingService : TrainingService,
-    private trainerService : TrainerService
+    private companyService: CompanyService,
+    private trainingService: TrainingService,
+    private trainerService: TrainerService
   ) {
     this.initForm();
   }
 
   ngOnInit(): void {
-    this.getAllCompanies()
-    this.getAllTrainings()
-    this.getAllTrainers()
+    this.getAllCompanies();
+    this.getAllTrainings();
+    this.getAllTrainers();
   }
 
   initForm() {
@@ -66,8 +66,8 @@ export class AddSessionComponent implements OnInit {
       sessionScore: new FormControl(''),
       minParticipants: new FormControl(''),
       company: new FormControl(''),
-      training: new FormControl({}),
-      trainer: new FormControl({})
+      training: new FormControl(''),
+      trainer: new FormControl(''),
     });
   }
 
@@ -87,6 +87,7 @@ export class AddSessionComponent implements OnInit {
       }
     );
   }
+
   getAllTrainings() {
     this.isFormSessionLoading = true;
     this.trainingService.getAll().subscribe(
@@ -103,6 +104,7 @@ export class AddSessionComponent implements OnInit {
       }
     );
   }
+
   getAllTrainers() {
     this.isFormSessionLoading = true;
     this.trainerService.getAll().subscribe(
@@ -119,13 +121,13 @@ export class AddSessionComponent implements OnInit {
       }
     );
   }
+
   get sessionType() {
     return this.sessionForm.get('sessionType')?.value;
   }
 
   saveSession() {
     this.isFormSessionLoading = true;
-
     switch (this.sessionType) {
       case 'InterSession':
         this.saveInterSession();
@@ -145,6 +147,7 @@ export class AddSessionComponent implements OnInit {
 
   saveInterSession() {
     let interSessionSave = this.createInterSession();
+    console.log(interSessionSave);
     this.interSessionService
       .save(interSessionSave)
       .pipe(
@@ -178,16 +181,31 @@ export class AddSessionComponent implements OnInit {
   }
 
   createInterSession(): InterSession {
-    this.interSessionValue = this.sessionForm.value;
+    const formValues = this.sessionForm.value;
+    this.interSessionValue = {
+      ...formValues,
+      training: this.allTrainings.find(
+        (t) => t.id === parseInt(formValues.training)
+      ),
+      trainer: this.allTrainers.find(
+        (t) => t.id === parseInt(formValues.trainer)
+      ),
+    };
+
     return this.interSessionValue;
   }
   createIntraSession(): IntraSession {
-    this.intraSessionValue = this.sessionForm.value;
+    const formValues = this.sessionForm.value;
+    this.intraSessionValue = {
+      ...formValues,
+      company: this.allCompanies.find(
+        (c) => c.id === parseInt(formValues.company.id)
+      ),
+    };
     return this.intraSessionValue;
   }
 
   responseSuccesOnSave(response: any) {
-    console.log(response);
     this.toastService.alertSuccess('Enregistrement effectué avec succès!');
     this.isFormSessionLoading = false;
     this.sessionForm.reset();
