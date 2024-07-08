@@ -1,3 +1,4 @@
+import { Particular } from "./Particular";
 import { Trainer } from "./Trainer";
 import { Training } from "./Training";
 
@@ -16,7 +17,16 @@ export interface InterSession{
     minParticipants: number,
     particularSubscription: null,
     training: Training,
-    trainer: Trainer
+    trainer: Trainer,
+    particularSubscriptions?: ParticularSubscription[];
+  }
+
+  export interface ParticularSubscription {
+    id: number;
+    status: string;
+    creationDate: Date;
+    updateDate: Date;
+    particular?: Particular;
   }
 
 export const EmptyInterSession = {

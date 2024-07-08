@@ -10,6 +10,6 @@ import { URL_BASE } from "../conf/constant";
 export class InterSessionService extends CrudService<InterSession>{
     constructor(http: HttpClient){
         const url : string = URL_BASE;
-        super(http, `${url}/intersessions`)
+        super(http, `${url}/intersessions/with-subscriptions`)
     }
 }
