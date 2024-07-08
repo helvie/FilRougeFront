@@ -49,6 +49,7 @@ export class EditInterSesssionComponent {
       status: [this.statusValues],
       date: ['', Validators.required],
       location: ['', Validators.required],
+      minParticipants: new FormControl(''),
       sessionScore: ['', Validators.required],
       training: ['', Validators.required],
       trainer: ['', Validators.required],
@@ -72,6 +73,7 @@ export class EditInterSesssionComponent {
       status: new FormControl([]),
       date: new FormControl([]),
       location: new FormControl([]),
+      minParticipants: new FormControl(''),
       sessionScore: new FormControl([]),
       training: new FormControl([]),
       trainer: new FormControl([])
