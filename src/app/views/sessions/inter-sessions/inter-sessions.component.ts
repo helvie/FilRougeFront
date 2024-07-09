@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { InterSession } from 'src/app/models/InterSession';
+import { InterSession, InterSessionWithSubscriptions } from 'src/app/models/InterSession';
 import { AlertService } from 'src/app/services/alert.service';
-import { InterSessionService } from 'src/app/services/inter-session.service';
+import { InterSessionService, InterSessionServiceWithSubscriptions } from 'src/app/services/inter-session.service';
 import Swal from 'sweetalert2';
 import { formatDate } from '../sessions.utils';
 
@@ -13,6 +13,7 @@ import { formatDate } from '../sessions.utils';
 })
 export class InterSessionsComponent implements OnInit {
   allInterSessions: InterSession[] = [];
+  allInterSessionsWithSubscriptions: InterSessionWithSubscriptions[] = [];
   isLoading!: boolean;
 
   showSubscriptions: number = 0;
@@ -23,20 +24,22 @@ export class InterSessionsComponent implements OnInit {
   
   constructor(
     private interSessionService: InterSessionService,
+    private interSessionServiceWithSubscriptions: InterSessionServiceWithSubscriptions,
     private alert: AlertService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.getAllInterSessions();
+    // this.getAllInterSessions();
+    this.getAllInterSessionsWithSubscriptions()
   }
 
-  getAllInterSessions() {
+  getAllInterSessionsWithSubscriptions(){
     this.isLoading = true;
-    this.interSessionService.getAll().subscribe(
+    this.interSessionServiceWithSubscriptions.getAll().subscribe(
       (next) => {
-        this.allInterSessions = next;
-        console.log('InterSessions:', this.allInterSessions);
+        this.allInterSessionsWithSubscriptions = next;
+        console.log('InterSessions:', this.allInterSessionsWithSubscriptions);
         this.isLoading = false;
       },
       (err) => {
@@ -48,6 +51,24 @@ export class InterSessionsComponent implements OnInit {
       }
     );
   }
+
+  // getAllInterSessions() {
+  //   this.isLoading = true;
+  //   this.interSessionService.getAll().subscribe(
+  //     (next) => {
+  //       this.allInterSessions = next;
+  //       console.log('InterSessions:', this.allInterSessions);
+  //       this.isLoading = false;
+  //     },
+  //     (err) => {
+  //       this.alert.alertError(
+  //         err.error !== null
+  //           ? err.error.message
+  //           : 'Impossible de récupérer les intersessions'
+  //       );
+  //     }
+  //   );
+  // }
 
   deleteInterSessoin(id: number) {
     Swal.fire({
@@ -64,7 +85,9 @@ export class InterSessionsComponent implements OnInit {
       if (result.isConfirmed) {
         this.interSessionService.delete(id).subscribe(
           () => {
-            this.getAllInterSessions();
+            // this.getAllInterSessions();
+            console.log(id)
+            this.getAllInterSessionsWithSubscriptions()
             Swal.fire(
               'Supprimé!',
               'La session a été supprimée avec succès.',

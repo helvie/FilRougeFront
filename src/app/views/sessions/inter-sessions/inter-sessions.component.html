@@ -7,7 +7,7 @@
       <th scope="col">Prix</th>
       <th scope="col">Description</th>
       <!-- <th scope="col">MinParticipants</th> -->
-      <th scope="col">Formation</th>
+      <!-- <th scope="col">Formation</th> -->
       <!-- <th scope="col">Formateur</th> -->
       <th scope="col">Statut</th>
       <th scope="col">Date</th>
@@ -17,8 +17,10 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let intersession of allInterSessions">
-      <tr *ngFor="let intersession of allInterSessions">
+    <ng-container
+      *ngFor="let intersession of allInterSessionsWithSubscriptions"
+    >
+      <tr>
         <!-- <td>
           {{ intersession.id }}
         </td> -->
@@ -27,13 +29,13 @@
         <td>{{ intersession.price }}&nbsp;€</td>
         <td class="fixed-column">{{ intersession.description }}</td>
         <!-- <th>{{ intersession.minParticipants }}</th> -->
-        <th>{{ intersession.training.title }}</th>
+        <!-- <th>{{ intersession.training?.title }}</th> -->
         <!-- <th>{{ intersession.trainer.firstname }}</th> -->
         <td>{{ intersession.status }}</td>
-        <td>{{ intersession.date | date :"dd/MM/yyyy"  }}</td>
+        <td>{{ intersession.date | date : "dd/MM/yyyy" }}</td>
         <td>{{ intersession.location }}</td>
         <td>{{ intersession.sessionScore }}</td>
-        <td>
+        <td class="action-column">
           <span
             (click)="goToUpdate(intersession.id)"
             class="text-primary"
@@ -47,13 +49,27 @@
             (click)="deleteInterSessoin(intersession.id)"
           >
             <i class="fa fa-trash"></i>
-          </span>
-          <span class="text-info" title="Afficher" (click)="toggleSubscriptions(intersession.id)">
+          </span>&nbsp;
+          <span
+            [ngClass]="intersession.particularSubscriptions &&
+            intersession.particularSubscriptions.length > 0 ? 'text-info' : 'text-secondary'"
+            title="Afficher les souscriptions"
+            (click)="toggleSubscriptions(intersession.id)"
+          >
+            <!-- <i *ngIf="!intersession.particularSubscriptions ||
+            intersession.particularSubscriptions!.length === 0" class="fa-solid fa-eye-slash"></i> -->
             <i class="fa fa-eye"></i>
           </span>
         </td>
       </tr>
-      <tr *ngIf="intersession.particularSubscriptions && intersession.particularSubscriptions.length > 0 && showSubscriptions==intersession.id" style="background-color: blue;" >
+      <tr
+        *ngIf="
+          intersession.particularSubscriptions &&
+          intersession.particularSubscriptions.length > 0 &&
+          showSubscriptions == intersession.id
+        "
+        style="background-color: blue"
+      >
         <td colspan="13">
           <table class="table table-bordered">
             <thead>
@@ -66,12 +82,23 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let subscription of intersession.particularSubscriptions; let i = index">
-                <td class="personText">{{ i+1 }}</td>
-                <td class="personText">{{ subscription.particular?.firstname }}</td>
-                <td class="personText">{{ subscription.particular?.lastname }}</td>
+              <tr
+                *ngFor="
+                  let subscription of intersession.particularSubscriptions;
+                  let i = index
+                "
+              >
+                <td class="personText">{{ i + 1 }}</td>
+                <td class="personText">
+                  {{ subscription.particular?.firstname }}
+                </td>
+                <td class="personText">
+                  {{ subscription.particular?.lastname }}
+                </td>
                 <td class="personText">{{ subscription.status }}</td>
-                <td class="personText">{{ subscription.creationDate | date:'dd/MM/YY' }}</td>              
+                <td class="personText">
+                  {{ subscription.creationDate | date : "dd/MM/YY" }}
+                </td>
               </tr>
             </tbody>
           </table>

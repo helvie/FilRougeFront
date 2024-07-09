@@ -3,18 +3,16 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Company } from 'src/app/models/Company';
 import { Employee } from 'src/app/models/Employee';
-import { InterSession } from 'src/app/models/InterSession';
-import { IntraSession } from 'src/app/models/IntraSession';
+import { InterSession, InterSessionWithSubscriptions } from 'src/app/models/InterSession';
+import { IntraSession, IntraSessionWithSubscriptions } from 'src/app/models/IntraSession';
 import { Particular } from 'src/app/models/Particular';
-import { Session } from 'src/app/models/Session';
 import { AlertService } from 'src/app/services/alert.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 
-import { InterSessionService } from 'src/app/services/inter-session.service';
-import { IntraSessionService } from 'src/app/services/intra-session.service';
+import { InterSessionService, InterSessionServiceWithSubscriptions } from 'src/app/services/inter-session.service';
+import { IntraSessionService, IntraSessionServiceWithSubscriptions } from 'src/app/services/intra-session.service';
 import { ParticularService } from 'src/app/services/particular.service';
-import { SessionService } from 'src/app/services/session.service';
 import { SubscriptionService } from 'src/app/services/subscription.service';
 
 import Swal from 'sweetalert2';
@@ -33,7 +31,9 @@ export class ClientsComponent implements OnInit {
 
   // for sessions modal
   interSessions: InterSession[] = [];
+  interSessionsWithSubscriptions: InterSessionWithSubscriptions[] = [];
   intraSessions: IntraSession[] = [];
+  intraSessionsWithSubscriptions: IntraSessionWithSubscriptions[] = [];
   isInterSessionLoading: boolean = false;
   isIntraSessionLoading: boolean = false;
   isModalOpen: boolean = false;
@@ -68,21 +68,20 @@ export class ClientsComponent implements OnInit {
     private employeeService: EmployeeService,
     private companyService: CompanyService,
     private alert: AlertService,
+    private interSessionServiceWithSubscriptions: InterSessionServiceWithSubscriptions,
     private interSessionService: InterSessionService,
+    private intraSessionServiceWithSubscriptions: IntraSessionServiceWithSubscriptions,
     private intraSessionService: IntraSessionService,
     private subscriptionService: SubscriptionService,
-
-
   ) {}
 
   ngOnInit(): void {
     this.getAllParticipants();
     this.getAllCompanies();
     this.initForm();
-    this.getAllInterSessions();
-    this.getAllIntraSessions();
+    this.getAllInterSessionsWithSubscriptions();
+    this.getAllIntraSessionsWithSubscriptions();
   }
-
 
   initForm() {
      this.searchForm = new FormGroup({
@@ -286,11 +285,26 @@ export class ClientsComponent implements OnInit {
     this.showEmp = false;
   }
 
-  getAllInterSessions(): void {
+  // getAllInterSessions(): void {
+  //   this.isLoading = true;
+  //   this.interSessionServiceWithSubscriptions.getAll().subscribe(
+  //     data => {
+  //       this.interSessionsWithSubscriptions = data;
+  //       console.log("InterSessions data:", data);
+  //       this.isLoading = false;
+  //     },
+  //     error => {
+  //       console.error("Erreur lors de la récupération des sessions:", error);
+  //       this.isLoading = false;
+  //     }
+  //   );
+  // }
+
+  getAllInterSessionsWithSubscriptions(): void {
     this.isLoading = true;
-    this.interSessionService.getAll().subscribe(
+    this.interSessionServiceWithSubscriptions.getAll().subscribe(
       data => {
-        this.interSessions = data;
+        this.interSessionsWithSubscriptions = data;
         console.log("InterSessions data:", data);
         this.isLoading = false;
       },
@@ -300,13 +314,27 @@ export class ClientsComponent implements OnInit {
       }
     );
   }
-
   
-  getAllIntraSessions(): void {
+  // getAllIntraSessions(): void {
+  //   this.isLoading = true;
+  //   this.intraSessionService.getAll().subscribe(
+  //     data => {
+  //       this.intraSessions = data;
+  //       console.log("IntraSessions data:", data);
+  //       this.isLoading = false;
+  //     },
+  //     error => {
+  //       console.error("Erreur lors de la récupération des sessions:", error);
+  //       this.isLoading = false;
+  //     }
+  //   );
+  // }
+
+  getAllIntraSessionsWithSubscriptions(): void {
     this.isLoading = true;
-    this.intraSessionService.getAll().subscribe(
+    this.intraSessionServiceWithSubscriptions.getAll().subscribe(
       data => {
-        this.intraSessions = data;
+        this.intraSessionsWithSubscriptions = data;
         console.log("IntraSessions data:", data);
         this.isLoading = false;
       },
@@ -319,14 +347,14 @@ export class ClientsComponent implements OnInit {
 
   openModalForInterSessions() {
     this.sessionType = 'inter';
-    this.getAllInterSessions();
+    this.getAllInterSessionsWithSubscriptions();
     this.isModalOpen = true;
     console.log("inter affiché")
   }
 
   openModalForIntraSessions() {
     this.sessionType = 'intra';
-    this.getAllIntraSessions();
+    this.getAllIntraSessionsWithSubscriptions();
     this.isModalOpen = true;
   }
 

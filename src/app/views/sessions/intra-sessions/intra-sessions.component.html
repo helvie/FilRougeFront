@@ -1,35 +1,35 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Id</th>
+      <!-- <th scope="col">Id</th> -->
       <th scope="col">Code</th>
-      <th scope="col">Duration</th>
+      <th scope="col">Durée</th>
       <th scope="col">Prix</th>
       <th scope="col">Description</th>
-      <th scope="col">Entreprise</th>
+      <!-- <th scope="col">Entreprise</th> -->
       <th scope="col">Status</th>
       <th scope="col">Date</th>
-      <th scope="col">Location</th>
+      <th scope="col">Lieu</th>
       <th scope="col">Score</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let intrasession of allIntraSessions">
-      <tr *ngFor="let intrasession of allIntraSessions">
-        <td>
+    <ng-container *ngFor="let intrasession of allIntraSessionsWithSubscriptions">
+      <tr>
+        <!-- <td>
           {{ intrasession.id }}
-        </td>
+        </td> -->
         <td>{{ intrasession.code }}</td>
         <td>{{ intrasession.duration }}&nbsp; mois</td>
         <td>{{ intrasession.price }}&nbsp;€</td>
-        <td>{{ intrasession.description }}</td>
-        <td>{{ intrasession.company.name }}</td>
+        <td class="fixed-column">{{ intrasession.description }}</td>
+        <!-- <td>{{ intrasession.company?.name }}</td> -->
         <td>{{ intrasession.status }}</td>
         <td>{{ intrasession.date | date : "dd/MM/yyyy" }}</td>
-        <td>{{ intrasession.location }}</td>
-        <td>{{ intrasession.sessionScore }}</td>
-        <td>
+        <td>{{ intrasession.location }}</td> 
+        <td>{{ intrasession.sessionScore }}</td> 
+        <td class="action-column">
           <span
             (click)="goToUpdate(intrasession.id)"
             class="text-primary"
@@ -43,10 +43,17 @@
             (click)="deleteIntraSessoin(intrasession.id)"
           >
             <i class="fa fa-trash"></i>
-          </span>
-          <span class="text-info" title="Afficher abonnements" (click)="toggleSubscriptions(intrasession.id)">
-            <i class="fa fa-eye"></i>
-          </span>
+          </span>&nbsp;
+          <span
+          [ngClass]="intrasession.employeeSubscriptions &&
+          intrasession.employeeSubscriptions!.length > 0 ? 'text-info' : 'text-secondary'"
+          title="Afficher les abonnements"
+          (click)="toggleSubscriptions(intrasession.id)"
+        >
+          <!-- <i *ngIf="!intrasession.employeeSubscriptions ||
+          intrasession.employeeSubscriptions!.length === 0" class="fa-solid fa-eye-slash"></i> -->
+          <i class="fa fa-eye"></i>
+        </span>
         </td>
       </tr>
       <tr *ngIf="intrasession.employeeSubscriptions && intrasession.employeeSubscriptions.length > 0 && showSubscriptions === intrasession.id">

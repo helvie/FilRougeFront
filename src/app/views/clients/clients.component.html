@@ -8,8 +8,8 @@
         <app-add-subscription-modal
           *ngIf="isModalOpen"
           (modalClosed)="closeModal()"
-          [interSessions]="interSessions"
-          [intraSessions]="intraSessions"
+          [interSessions]="interSessionsWithSubscriptions"
+          [intraSessions]="intraSessionsWithSubscriptions"
           [sessionType]="sessionType"
           (sessionSelected)="subscribeToSession($event)"
           [personId]="selectedPersonId"

@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { InterSession, EmptyInterSession } from 'src/app/models/InterSession';
+import {
+  InterSession,
+  EmptyInterSession,
+  InterSessionWithSubscriptions,
+  EmptyInterSessionWithSubscriptions,
+} from 'src/app/models/InterSession';
 import {
   FormBuilder,
   FormControl,
@@ -7,7 +12,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { InterSessionService } from 'src/app/services/inter-session.service';
+import {
+  InterSessionService,
+  InterSessionServiceWithSubscriptions,
+} from 'src/app/services/inter-session.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { tap } from 'rxjs';
 import { Status, formatDate } from '../../sessions.utils';
@@ -23,6 +31,8 @@ import { TrainerService } from 'src/app/services/trainer.service';
 export class EditInterSesssionComponent {
   id!: number;
   interSessionDetail: InterSession = EmptyInterSession;
+  interSessionDetailWithSubscriptions: InterSessionWithSubscriptions =
+    EmptyInterSessionWithSubscriptions;
 
   statusValues: String[] = Object.values(Status);
   allTrainings: Training[] = [];
@@ -34,6 +44,7 @@ export class EditInterSesssionComponent {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private interSessionService: InterSessionService,
+    // private interSessionServiceWithSubscriptions: InterSessionServiceWithSubscriptions,
     private trainingService: TrainingService,
     private trainerService: TrainerService,
     private alert: AlertService,
@@ -53,8 +64,11 @@ export class EditInterSesssionComponent {
       sessionScore: ['', Validators.required],
       training: ['', Validators.required],
       trainer: ['', Validators.required],
+      particularSubscription: [''],
+      particularSubscriptions: [''],
     });
   }
+
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     this.handlerGetInterSessionById();
@@ -65,18 +79,23 @@ export class EditInterSesssionComponent {
 
   initForm() {
     this.interSessionFormUpdate.patchValue({
-      code: this.interSessionDetail.code,
-      id: this.interSessionDetail.id, 
-      duration: this.interSessionDetail.duration,
-      price: this.interSessionDetail.price, 
-      minParticipants: this.interSessionDetail.minParticipants,
-      status: this.interSessionDetail.status,
-      date: formatDate(this.interSessionDetail.date),
-      location: this.interSessionDetail.location, 
-      sessionScore: this.interSessionDetail.sessionScore, 
-      description: this.interSessionDetail.description, 
-      training: this.interSessionDetail.training?.id,
-      trainer: this.interSessionDetail.trainer?.id
+      code: this.interSessionDetailWithSubscriptions.code,
+      id: this.interSessionDetailWithSubscriptions.id,
+      duration: this.interSessionDetailWithSubscriptions.duration,
+      price: this.interSessionDetailWithSubscriptions.price,
+      minParticipants: this.interSessionDetailWithSubscriptions.minParticipants,
+      status: this.interSessionDetailWithSubscriptions.status,
+      date: formatDate(this.interSessionDetailWithSubscriptions.date),
+      location: this.interSessionDetailWithSubscriptions.location,
+      sessionScore: this.interSessionDetailWithSubscriptions.sessionScore,
+      description: this.interSessionDetailWithSubscriptions.description,
+      training: this.interSessionDetailWithSubscriptions.training?.id,
+      trainer: this.interSessionDetailWithSubscriptions.trainer?.id,
+      particularSubscriprion:
+        this.interSessionDetailWithSubscriptions.particularSubscription,
+      particularSubscriptions: [
+        this.interSessionDetailWithSubscriptions.particularSubscriptions,
+      ],
     });
   }
 
@@ -115,10 +134,12 @@ export class EditInterSesssionComponent {
   }
 
   handlerGetInterSessionById() {
+    console.log(this.interSessionDetail)
+   
     this.interSessionService.getById(this.id).subscribe(
       (data) => {
-        this.interSessionDetail = data;
-        this.initForm()
+        this.interSessionDetail = data as InterSessionWithSubscriptions;
+        this.initForm();
       },
       (err) => {
         this.alert.alertError(
@@ -128,12 +149,16 @@ export class EditInterSesssionComponent {
     );
   }
 
-  isSelectedTraining(trainingId: number){
-    return this.allTrainings.some(selectedTraining => selectedTraining.id ===trainingId)
+  isSelectedTraining(trainingId: number) {
+    return this.allTrainings.some(
+      (selectedTraining) => selectedTraining.id === trainingId
+    );
   }
 
-  isSelectedTrainer(trainerId: number){
-    return this.allTrainers.some(selectedTrainer => selectedTrainer.id ===trainerId)
+  isSelectedTrainer(trainerId: number) {
+    return this.allTrainers.some(
+      (selectedTrainer) => selectedTrainer.id === trainerId
+    );
   }
 
   isSelectedStatus(status: String): boolean {
@@ -145,7 +170,7 @@ export class EditInterSesssionComponent {
   updateInterSession() {
     this.isFormSessionLoading = true;
     const interSessionId = this.id;
-  
+
     const formValues = this.interSessionFormUpdate.value;
     let interSessionUpdate = {
       ...formValues,
@@ -162,7 +187,7 @@ export class EditInterSesssionComponent {
       .pipe(
         tap(
           (value) => {
-            console.log(value)
+            console.log(value);
             this.toastService.alertSuccess(
               'Modification effectuée avec succès!'
             );

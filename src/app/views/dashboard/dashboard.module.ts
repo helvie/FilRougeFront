@@ -19,8 +19,6 @@ import { EditInterSesssionComponent } from '../sessions/inter-sessions/edit-inte
 import { EditIntraSesssionComponent } from '../sessions/intra-sessions/edit-intra-sesssion/edit-intra-sesssion.component';
 import { AddSessionComponent } from '../sessions/add-session/add-session.component';
 
-
-
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -37,7 +35,7 @@ import { AddSessionComponent } from '../sessions/add-session/add-session.compone
     IntraSessionsComponent,
     EditInterSesssionComponent,
     EditIntraSesssionComponent,
-    AddSessionComponent
+    AddSessionComponent,
   ],
   imports: [
     CommonModule,
