@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { IntraSession } from 'src/app/models/IntraSession';
+import { IntraSession, IntraSessionWithSubscriptions } from 'src/app/models/IntraSession';
 import { AlertService } from 'src/app/services/alert.service';
-import { IntraSessionService } from 'src/app/services/intra-session.service';
+import { IntraSessionService, IntraSessionServiceWithSubscriptions } from 'src/app/services/intra-session.service';
 import Swal from 'sweetalert2';
 import { formatDate } from '../sessions.utils';
 
@@ -12,7 +12,8 @@ import { formatDate } from '../sessions.utils';
   styleUrls: ['./intra-sessions.component.scss']
 })
 export class IntraSessionsComponent {
-  allIntraSessions: IntraSession[] = [];
+  // allIntraSessions: IntraSession[] = [];
+  allIntraSessionsWithSubscriptions: IntraSessionWithSubscriptions[] = [];
   isLoading!: boolean;
   showSubscriptions: number = 0;
 
@@ -21,20 +22,41 @@ export class IntraSessionsComponent {
   }
   constructor(
     private intraSessionService: IntraSessionService,
+    private intraSessionServiceWithSubscriptions: IntraSessionServiceWithSubscriptions,
     private alert: AlertService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.getAllIntraSessions();
+    // this.getAllIntraSessions();
+    this.getAllIntraSessionsWithSubscriptions();
   }
 
-  getAllIntraSessions() {
+  // getAllIntraSessions() {
+  //   this.isLoading = true;
+  //   this.intraSessionService.getAll().subscribe(
+  //     (next) => {
+  //       this.allIntraSessions = next;
+  //       console.log('IntraSessions:', this.allIntraSessions);
+
+  //       this.isLoading = false;
+  //     },
+  //     (err) => {
+  //       this.alert.alertError(
+  //         err.error !== null
+  //           ? err.error.message
+  //           : 'Impossible de récupérer les intrasessions'
+  //       );
+  //     }
+  //   );
+  // }
+
+  getAllIntraSessionsWithSubscriptions() {
     this.isLoading = true;
-    this.intraSessionService.getAll().subscribe(
+    this.intraSessionServiceWithSubscriptions.getAll().subscribe(
       (next) => {
-        this.allIntraSessions = next;
-        console.log('IntraSessions:', this.allIntraSessions);
+        this.allIntraSessionsWithSubscriptions = next;
+        console.log('IntraSessions:', this.allIntraSessionsWithSubscriptions);
 
         this.isLoading = false;
       },
@@ -63,7 +85,8 @@ export class IntraSessionsComponent {
       if (result.isConfirmed) {
         this.intraSessionService.delete(id).subscribe(
           () => {
-            this.getAllIntraSessions();
+            // this.getAllIntraSessions();
+            this.getAllIntraSessionsWithSubscriptions();
             Swal.fire(
               'Supprimé!',
               'La session a été supprimée avec succès.',

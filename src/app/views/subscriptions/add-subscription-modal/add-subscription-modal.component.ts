@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { InterSession } from 'src/app/models/InterSession';
-import { IntraSession } from 'src/app/models/IntraSession';
+import { InterSession, InterSessionWithSubscriptions } from 'src/app/models/InterSession';
+import { IntraSession, IntraSessionWithSubscriptions } from 'src/app/models/IntraSession';
 import { SubscriptionService } from 'src/app/services/subscription.service';
 import { AlertService } from 'src/app/services/alert.service';
 import Swal from 'sweetalert2';
@@ -16,7 +16,9 @@ export class AddSubscriptionModalComponent {
   @Output() sessionSelected = new EventEmitter<number>();
   
   @Input() intraSessions: IntraSession[] = [];
+  @Input() intraSessionsWithSubscriptions: IntraSessionWithSubscriptions[] = [];
   @Input() interSessions: InterSession[] = [];
+  @Input() interSessionsWithSubscriptions: InterSessionWithSubscriptions[] = [];
   @Input() isLoadingSessions: boolean = false;  
   @Input() isLoadingSubscription: boolean = false;
   @Input() sessionType: 'inter' | 'intra' = 'inter';

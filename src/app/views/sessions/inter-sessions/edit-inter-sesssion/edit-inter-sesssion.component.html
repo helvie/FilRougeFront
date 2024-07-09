@@ -26,14 +26,14 @@
                       id="Enter_Code"
                       type="text"
                       class="form-control"
-                      value="{{ interSessionDetail.code }}"
+                      value="{{ interSessionDetailWithSubscriptions.code }}"
                       formControlName="code"
                       required
                     />
                     <input
                       type="hidden"
                       class="form-control"
-                      value="{{ interSessionDetail.id }}"
+                      value="{{ interSessionDetailWithSubscriptions.id }}"
                       formControlName="id"
                       required
                     />
@@ -50,7 +50,7 @@
                       id="Enter_Duration"
                       type="number"
                       class="form-control"
-                      value="{{ interSessionDetail.duration }}"
+                      value="{{ interSessionDetailWithSubscriptions.duration }}"
                       formControlName="duration"
                       required
                     />
@@ -67,7 +67,7 @@
                       id="Enter_Price"
                       type="number"
                       class="form-control"
-                      value="{{ interSessionDetail.price }}"
+                      value="{{ interSessionDetailWithSubscriptions.price }}"
                       formControlName="price"
                       required
                     />
@@ -84,7 +84,7 @@
                       id="Enter_MinParticipants"
                       type="number"
                       class="form-control"
-                      value="{{ interSessionDetail.minParticipants }}"
+                      value="{{ interSessionDetailWithSubscriptions.minParticipants }}"
                       formControlName="minParticipants"
                       required
                     />
@@ -128,7 +128,7 @@
                     id="Enter_Date"
                     type="date"
                     class="form-control"
-                    [value]="interSessionDetail.date | date : 'yyyy-MM-dd'"
+                    [value]="interSessionDetailWithSubscriptions.date | date : 'yyyy-MM-dd'"
                     formControlName="date"
                     required
                   />
@@ -144,7 +144,7 @@
                       id="Enter_Location"
                       type="text"
                       class="form-control"
-                      value="{{ interSessionDetail.location }}"
+                      value="{{ interSessionDetailWithSubscriptions.location }}"
                       formControlName="location"
                       required
                     />
@@ -161,7 +161,7 @@
                       id="Enter_Score"
                       type="number"
                       class="form-control"
-                      value="{{ interSessionDetail.sessionScore }}"
+                      value="{{ interSessionDetailWithSubscriptions.sessionScore }}"
                       formControlName="sessionScore"
                       required
                     />
@@ -230,7 +230,7 @@
                       id="Enter_Description"
                       type="text"
                       class="form-control"
-                      value="{{ interSessionDetail.description }}"
+                      value="{{ interSessionDetailWithSubscriptions.description }}"
                       formControlName="description"
                       required
                     />
